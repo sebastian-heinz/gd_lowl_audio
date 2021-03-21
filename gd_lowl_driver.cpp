@@ -6,7 +6,7 @@ void GdLowlDriver::_bind_methods() {
     ClassDB::bind_method(D_METHOD("initialize"), &GdLowlDriver::initialize);
 }
 
-GdLowlDriver::GdLowlDriver(LowlDriver *p_driver) {
+GdLowlDriver::GdLowlDriver(Lowl::Driver *p_driver) {
     driver = p_driver;
 }
 
@@ -15,14 +15,15 @@ GdLowlDriver::~GdLowlDriver() {
 }
 
 GdLowlError::Code GdLowlDriver::initialize() {
-    LowlError error = driver->initialize();
-    if (error != LowlError::NoError) {
-        return GdLowlError::convert(error);
+    Lowl::Error error;
+    driver->initialize(error);
+    if (error.has_error()) {
+        return GdLowlError::convert(error.get_error());
     }
     devices = std::vector<Ref<GdLowlDevice>>();
-    std::vector<LowlDevice *> lowl_devices = driver->get_devices();
+    std::vector<Lowl::Device *> lowl_devices = driver->get_devices();
     print_line(vformat("GdLowlDriver::initialize: lowl_devices.size(): %d", (int) lowl_devices.size()));
-    for (LowlDevice *lowl_device : lowl_devices) {
+    for (Lowl::Device *lowl_device : lowl_devices) {
         GdLowlDevice *gd_device = memnew(GdLowlDevice(lowl_device));
         Ref<GdLowlDevice> gd_device_ref = Ref<GdLowlDevice>(gd_device);
         devices.push_back(gd_device_ref);

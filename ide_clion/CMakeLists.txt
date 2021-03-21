@@ -17,7 +17,10 @@ target_include_directories(
         SYSTEM PUBLIC
         ${GODOT_ROOT_DIR}
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/include
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/portaudio/include
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/readerwriterqueue
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/dr_libs
 )
 
 add_definitions(-DLOWL_DRIVER_DUMMY)
