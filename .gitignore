@@ -1,0 +1,12 @@
+# CLion
+cmake-build-debug
+
+# General c++ generated files
+*.o
+
+# Jetbrains IDEs
+.idea/
+
+# Misc
+.DS_Store
+__pycache__/

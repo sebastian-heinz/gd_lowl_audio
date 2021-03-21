@@ -1,0 +1,45 @@
+#include "gd_lowl.h"
+
+GdLowl *GdLowl::singleton = nullptr;
+
+GdLowl *GdLowl::get_singleton() {
+    return singleton;
+}
+
+void GdLowl::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_drivers"), &GdLowl::bind_get_drivers);
+}
+
+GdLowl::GdLowl() {
+    drivers = std::vector<Ref<GdLowlDriver>>();
+    singleton = this;
+    Lowl::ErrorCode error = Lowl::Lib::initialize();
+    if (error != LowlError::NoError) {
+        print_line(vformat("GdLowl::GdLowl: error: %d", Lowl::get_error_code(error)));
+    }
+    std::vector<LowlDriver *> lowl_drivers = Lowl::get_drivers();
+    for (LowlDriver *lowl_driver : lowl_drivers) {
+        GdLowlDriver *gd_driver = memnew(GdLowlDriver(lowl_driver));
+        Ref<GdLowlDriver> gd_driver_ref = Ref<GdLowlDriver>(gd_driver);
+        drivers.push_back(gd_driver_ref);
+    }
+}
+
+GdLowl::~GdLowl() {
+    LowlError error = Lowl::terminate();
+    if (error != LowlError::NoError) {
+        print_line(vformat("GdLowl::~GdLowl: error: %d", Lowl::get_error_code(error)));
+    }
+}
+
+Array GdLowl::bind_get_drivers() {
+    Array gd_drivers = Array();
+    for (Ref<GdLowlDriver> driver : drivers) {
+        gd_drivers.push_back(driver);
+    }
+    return gd_drivers;
+}
+
+std::vector<Ref<GdLowlDriver>> GdLowl::get_drivers() {
+    return std::vector<Ref<GdLowlDriver>>(drivers);
+}

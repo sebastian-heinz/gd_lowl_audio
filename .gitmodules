@@ -1,0 +1,3 @@
+[submodule "lowl_audio"]
+	path = lowl_audio
+	url = https://github.com/sebastian-heinz/lowl_audio.git

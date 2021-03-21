@@ -1,0 +1,236 @@
+#!/usr/bin/env python
+
+import os
+import sys
+
+Import('env')
+module_env = env.Clone()
+
+gd_lowl_root_abs = "#modules/gd_lowl_audio"
+lowl_root = "./lowl_audio"
+rwq_root = lowl_root + "/third_party/readerwriterqueue"
+pa_root = lowl_root + "/third_party/portaudio"
+dr_root = lowl_root + "/third_party/dr_libs"
+asio_root = lowl_root + "/third_party/asiosdk"
+
+# region portaudio
+module_env.Append(CPPDEFINES=[('PA_GIT_REVISION', '')])
+env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
+
+use_host_api = [  # only APIs that are not commented will be build
+    # "skeleton", # Test Host Api for developers
+    "asio",  # ASIO (Audio Streaming Input Output)
+    "dsound",  # Direct Sound
+    # "jack",     #
+    "wasapi",  # (WASAPI) Windows Audio Session API
+    # "wdmks",    # (WDM/KS) Windows Driver Model/Kernel Streaming
+    "wmme",  #
+    # "alsa" ,    #
+    # "asihpi",   #
+    "coreaudio",  #
+    # "oss",      #
+]
+
+available_host_apis = []
+available_host_apis.append("skeleton")
+
+pa_sources = [
+    pa_root + "/src/common/pa_allocation.c",
+    pa_root + "/src/common/pa_converters.c",
+    pa_root + "/src/common/pa_cpuload.c",
+    pa_root + "/src/common/pa_debugprint.c",
+    pa_root + "/src/common/pa_dither.c",
+    pa_root + "/src/common/pa_front.c",
+    pa_root + "/src/common/pa_process.c",
+    pa_root + "/src/common/pa_ringbuffer.c",
+    pa_root + "/src/common/pa_stream.c",
+    pa_root + "/src/common/pa_trace.c",
+]
+module_env.Append(CPPPATH=[pa_root + "/include"])
+module_env.Append(CPPPATH=[pa_root + "/src/common"])
+
+if module_env["platform"] == "windows":
+    win_sources = [
+        pa_root + "/src/os/win/pa_win_coinitialize.c",
+        pa_root + "/src/os/win/pa_win_hostapis.c",
+        pa_root + "/src/os/win/pa_win_util.c",
+        pa_root + "/src/os/win/pa_win_waveformat.c",
+        pa_root + "/src/os/win/pa_win_wdmks_utils.c",
+        pa_root + "/src/os/win/pa_x86_plain_converters.c",
+    ]
+    available_host_apis.append("asio")
+    available_host_apis.append("dsound")
+    available_host_apis.append("wasapi")
+    available_host_apis.append("wdmks")
+    available_host_apis.append("wmme")
+    module_env.Append(CPPPATH=[pa_root + "/src/os/win"])
+    pa_sources.append(win_sources)
+
+if module_env["platform"] == "x11":
+    x11_sources = [
+        pa_root + "/src/os/unix/pa_unix_hostapis.c",
+        pa_root + "/src/os/unix/pa_unix_util.c",
+    ]
+    available_host_apis.append("alsa")
+    available_host_apis.append("asihpi")
+    available_host_apis.append("asio")
+    available_host_apis.append("jack")
+    available_host_apis.append("oss")
+    module_env.Append(CPPPATH=[pa_root + "/src/os/unix"])
+    pa_sources.append(x11_sources)
+
+if module_env["platform"] == "osx":
+    osx_sources = [
+        pa_root + "/src/os/unix/pa_unix_hostapis.c",
+        pa_root + "/src/os/unix/pa_unix_util.c",
+    ]
+    available_host_apis.append("coreaudio")
+    module_env.Append(CPPPATH=[pa_root + "/src/os/unix"])
+    pa_sources.append(osx_sources)
+    env.Append(LINKFLAGS=[
+        "-framework",
+        "CoreFoundation",
+        "-framework",
+        "CoreServices",
+        "-framework",
+        "CoreAudio",
+        "-framework",
+        "AudioToolBox",
+        "-framework",
+        "AudioUnit"
+    ])
+
+host_api_sources = []
+for host_api in available_host_apis:
+    if not host_api in use_host_api:
+        # skip undesired host apis
+        continue
+
+    if (host_api == "skeleton"):
+        module_env.Append(CPPDEFINES=["PA_USE_SKELETON"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/skeleton"])
+        host_api_sources.append(pa_root + "/src/hostapi/skeleton/pa_hostapi_skeleton.c")
+
+    if (host_api == "asio"):
+        if not os.path.exists(asio_root + "/common/asio.cpp") or not os.path.exists(
+                asio_root + "/host/asiodrivers.cpp") or not os.path.exists(asio_root + "/host/pc/asiolist.cpp"):
+            print("ASIO SDK missing")
+            sys.exit(255)
+        module_env.Append(CPPDEFINES=["PA_USE_ASIO"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/asio"])
+        host_api_sources.append(pa_root + "/src/hostapi/asio/iasiothiscallresolver.cpp")
+        host_api_sources.append(pa_root + "/src/hostapi/asio/pa_asio.cpp")
+        # Asio SDK
+        module_env.Append(CPPPATH=[asio_root + "/common"])
+        module_env.Append(CPPPATH=[asio_root + "/host"])
+        module_env.Append(CPPPATH=[asio_root + "/host/pc"])
+        host_api_sources.append(asio_root + "/common/asio.cpp")
+        host_api_sources.append(asio_root + "/host/asiodrivers.cpp")
+        host_api_sources.append(asio_root + "/host/pc/asiolist.cpp")
+
+    if (host_api == "dsound"):
+        module_env.Append(CPPDEFINES=["PA_USE_DS"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/dsound"])
+        host_api_sources.append(pa_root + "/src/hostapi/dsound/pa_win_ds.c")
+        host_api_sources.append(pa_root + "/src/hostapi/dsound/pa_win_ds_dynlink.c")
+
+    if (host_api == "jack"):
+        module_env.Append(CPPDEFINES=["PA_USE_JACK"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/jack"])
+        host_api_sources.append(pa_root + "/src/hostapi/jack/pa_jack.c")
+
+    if (host_api == "wasapi"):
+        # disable Godot WASAPI driver
+        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'WASAPI_ENABLED' not in x]
+        module_env.Append(CPPDEFINES=["PA_USE_WASAPI"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/wasapi"])
+        host_api_sources.append(pa_root + "/src/hostapi/wasapi/pa_win_wasapi.c")
+
+    if (host_api == "wdmks"):
+        module_env.Append(CPPDEFINES=["PA_USE_WDMKS"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/wdmks"])
+        host_api_sources.append(pa_root + "/src/hostapi/wdmks/pa_win_wdmks.c")
+
+    if (host_api == "wmme"):
+        module_env.Append(CPPDEFINES=["PA_USE_WMME"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/wmme"])
+        host_api_sources.append(pa_root + "/src/hostapi/wmme/pa_win_wmme.c")
+
+    if (host_api == "alsa"):
+        module_env.Append(CPPDEFINES=["PA_USE_ALSA"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/alsa"])
+        host_api_sources.append(pa_root + "/src/hostapi/alsa/pa_linux_alsa.c")
+
+    if (host_api == "asihpi"):
+        module_env.Append(CPPDEFINES=["PA_USE_ASIHPI"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/asihpi"])
+        host_api_sources.append(pa_root + "/src/hostapi/asihpi/pa_linux_asihpi.c")
+
+    if (host_api == "coreaudio"):
+        module_env.Append(CPPDEFINES=["PA_USE_COREAUDIO"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/coreaudio"])
+        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core.c")
+        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_blocking.c")
+        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_utilities.c")
+
+    if (host_api == "oss"):
+        module_env.Append(CPPDEFINES=["PA_USE_OSS"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/oss"])
+        host_api_sources.append(pa_root + "/src/hostapi/oss/pa_unix_oss.c")
+        host_api_sources.append(pa_root + "/src/hostapi/oss/recplay.c")
+
+pa_sources.append(host_api_sources)
+module_env.add_source_files(env.modules_sources, pa_sources)
+# endregion
+
+# region readerwriterqueue
+env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
+# endregion
+
+# region dr_libs
+env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
+# endregion
+
+# region lowl
+env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
+
+module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
+module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
+lowl_sources = [
+    lowl_root + "/src/lowl.cpp",
+    lowl_root + "/src/lowl_audio_mixer.cpp",
+    lowl_root + "/src/lowl_audio_reader.cpp",
+    lowl_root + "/src/lowl_audio_reader_flac.cpp",
+    lowl_root + "/src/lowl_audio_reader_mp3.cpp",
+    lowl_root + "/src/lowl_audio_reader_wav.cpp",
+    lowl_root + "/src/lowl_audio_stream.cpp",
+    lowl_root + "/src/lowl_buffer.cpp",
+    lowl_root + "/src/lowl_device.cpp",
+    lowl_root + "/src/lowl_device_pa.cpp",
+    lowl_root + "/src/lowl_driver.cpp",
+    lowl_root + "/src/lowl_driver_dummy.cpp",
+    lowl_root + "/src/lowl_driver_pa.cpp",
+    lowl_root + "/src/lowl_file_unix.cpp",
+    lowl_root + "/src/lowl_sample_converter.cpp",
+]
+module_env.add_source_files(env.modules_sources, lowl_sources)
+module_env.Append(CPPPATH=[lowl_root + "/src"])
+
+if module_env["platform"] == "windows":
+    module_env.Append(CPPDEFINES=["LOWL_WIN"])
+if module_env["platform"] == "x11":
+    module_env.Append(CPPDEFINES=["LOWL_UNIX"])
+if module_env["platform"] == "osx":
+    module_env.Append(CPPDEFINES=["LOWL_UNIX"])
+# endregion
+
+# Godot sources
+sources = [
+    "register_types.cpp",
+    "gd_lowl.cpp",
+    "gd_lowl_error.cpp",
+    "gd_lowl_driver.cpp",
+    "gd_lowl_device.cpp",
+    "gd_lowl_node.cpp",
+]
+module_env.add_source_files(env.modules_sources, sources)
