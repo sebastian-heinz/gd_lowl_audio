@@ -13,10 +13,16 @@ pa_root = lowl_root + "/third_party/portaudio"
 dr_root = lowl_root + "/third_party/dr_libs"
 asio_root = lowl_root + "/third_party/asiosdk"
 
+#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
+#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
+#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
+
+#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
+module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
+module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
+
 # region portaudio
 module_env.Append(CPPDEFINES=[('PA_GIT_REVISION', '')])
-env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
-
 use_host_api = [  # only APIs that are not commented will be build
     # "skeleton", # Test Host Api for developers
     "asio",  # ASIO (Audio Streaming Input Output)
@@ -184,25 +190,19 @@ module_env.add_source_files(env.modules_sources, pa_sources)
 # endregion
 
 # region readerwriterqueue
-#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
 module_env.Append(CPPPATH=[rwq_root])
 # endregion
 
 # region dr_libs
-#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
 module_env.Append(CPPPATH=[dr_root])
 # endregion
 
 # region lowl
-# env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
-
-module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
-module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
-
 module_env.Append(CPPPATH=[lowl_root + "/src"])
 module_env.Append(CPPPATH=[lowl_root + "/include"])
 lowl_sources = [
     lowl_root + "/src/lowl.cpp",
+    lowl_root + "/src/lowl_audio_data.cpp",
     lowl_root + "/src/lowl_audio_mixer.cpp",
     lowl_root + "/src/lowl_audio_reader.cpp",
     lowl_root + "/src/lowl_audio_reader_flac.cpp",
@@ -215,7 +215,9 @@ lowl_sources = [
     lowl_root + "/src/lowl_driver.cpp",
     lowl_root + "/src/lowl_driver_dummy.cpp",
     lowl_root + "/src/lowl_driver_pa.cpp",
+    lowl_root + "/src/lowl_error.cpp",
     lowl_root + "/src/lowl_file_unix.cpp",
+    lowl_root + "/src/lowl_file_win.cpp",
     lowl_root + "/src/lowl_sample_converter.cpp",
 ]
 module_env.add_source_files(env.modules_sources, lowl_sources)
@@ -228,7 +230,7 @@ if module_env["platform"] == "osx":
     module_env.Append(CPPDEFINES=["LOWL_UNIX"])
 # endregion
 
-# Godot sources
+# region gd_lowl
 sources = [
     "register_types.cpp",
     "gd_lowl.cpp",
@@ -238,3 +240,4 @@ sources = [
     "gd_lowl_node.cpp",
 ]
 module_env.add_source_files(env.modules_sources, sources)
+# endregion

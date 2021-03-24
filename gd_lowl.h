@@ -27,10 +27,9 @@ public:
     static GdLowl *get_singleton();
 
 public:
-    Array bind_get_drivers();
-
-public:
-    std::vector<Ref<GdLowlDriver>> get_drivers();
+    Array get_drivers();
+    GdLowlError::Code init();
+    GdLowlError::Code finish();
 
     GdLowl();
 
