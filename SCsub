@@ -9,15 +9,18 @@ module_env = env.Clone()
 gd_lowl_root_abs = "#modules/gd_lowl_audio"
 lowl_root = "./lowl_audio"
 rwq_root = lowl_root + "/third_party/readerwriterqueue"
+cq_root = lowl_root + "/third_party/concurrentqueue"
 pa_root = lowl_root + "/third_party/portaudio"
 dr_root = lowl_root + "/third_party/dr_libs"
 asio_root = lowl_root + "/third_party/asiosdk"
 
-#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
-#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
-#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
+# add these lines to another modules SCsub in order to access the c++ headers of these libs
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + cq_root])
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
 
-#env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
 
@@ -93,6 +96,7 @@ if module_env["platform"] == "osx":
     available_host_apis.append("coreaudio")
     module_env.Append(CPPPATH=[pa_root + "/src/os/unix"])
     pa_sources.append(osx_sources)
+    # TODO can this be scoped to `module_env` ?
     env.Append(LINKFLAGS=[
         "-framework",
         "CoreFoundation",
@@ -147,6 +151,7 @@ for host_api in available_host_apis:
 
     if (host_api == "wasapi"):
         # disable Godot WASAPI driver
+        # TODO is there a way to use WASAPI driver of godot?
         env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'WASAPI_ENABLED' not in x]
         module_env.Append(CPPDEFINES=["PA_USE_WASAPI"])
         module_env.Append(CPPPATH=[pa_root + "/src/hostapi/wasapi"])
@@ -191,6 +196,10 @@ module_env.add_source_files(env.modules_sources, pa_sources)
 
 # region readerwriterqueue
 module_env.Append(CPPPATH=[rwq_root])
+# endregion
+
+# region concurrentqueue
+module_env.Append(CPPPATH=[cq_root])
 # endregion
 
 # region dr_libs

@@ -30,6 +30,7 @@ target_include_directories(
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/include
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/portaudio/include
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/readerwriterqueue
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/concurrentqueue
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/dr_libs
 )
 
