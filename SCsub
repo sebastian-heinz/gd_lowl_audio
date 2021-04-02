@@ -13,6 +13,7 @@ cq_root = lowl_root + "/third_party/concurrentqueue"
 pa_root = lowl_root + "/third_party/portaudio"
 dr_root = lowl_root + "/third_party/dr_libs"
 asio_root = lowl_root + "/third_party/asiosdk"
+r8brain_root = lowl_root + "/third_party/r8brain-free-src"
 
 # add these lines to another modules SCsub in order to access the c++ headers of these libs
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
@@ -20,6 +21,7 @@ asio_root = lowl_root + "/third_party/asiosdk"
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + cq_root])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + r8brain_root])
 
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
@@ -206,6 +208,15 @@ module_env.Append(CPPPATH=[cq_root])
 module_env.Append(CPPPATH=[dr_root])
 # endregion
 
+# region r8brain
+module_env.Append(CPPPATH=[r8brain_root])
+r8brain_sources = [
+    r8brain_root + "/pffft.cpp",
+    r8brain_root + "/r8bbase.cpp",
+]
+module_env.add_source_files(env.modules_sources, r8brain_sources)
+# endregion
+
 # region lowl
 module_env.Append(CPPPATH=[lowl_root + "/src"])
 module_env.Append(CPPPATH=[lowl_root + "/include"])
@@ -227,7 +238,14 @@ lowl_sources = [
     lowl_root + "/src/lowl_error.cpp",
     lowl_root + "/src/lowl_file_unix.cpp",
     lowl_root + "/src/lowl_file_win.cpp",
+    lowl_root + "/src/lowl_node.cpp",
+    lowl_root + "/src/lowl_node_in_stream.cpp",
+    lowl_root + "/src/lowl_node_out_stream.cpp",
+    lowl_root + "/src/lowl_node_process.cpp",
+    lowl_root + "/src/lowl_node_re_sampler.cpp",
+    lowl_root + "/src/lowl_re_sampler.cpp",
     lowl_root + "/src/lowl_sample_converter.cpp",
+    lowl_root + "/src/lowl_space.cpp",
 ]
 module_env.add_source_files(env.modules_sources, lowl_sources)
 
