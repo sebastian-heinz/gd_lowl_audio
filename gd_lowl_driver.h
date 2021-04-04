@@ -1,12 +1,15 @@
 #ifndef GD_LOWL_DRIVER_H
 #define GD_LOWL_DRIVER_H
 
+#include "core/object/reference.h"
+
 #include "gd_lowl_error.h"
 #include "gd_lowl_device.h"
 
-#include <lowl.h>
+#include "lowl_driver.h"
+#include "lowl_device.h"
 
-#include "core/object/reference.h"
+#include <memory>
 
 class GdLowlDriver : public Reference {
 GDCLASS(GdLowlDriver, Reference);
@@ -27,6 +30,7 @@ protected:
 
 public:
     Array bind_get_devices() const;
+
     String bind_get_name() const;
 
 public:

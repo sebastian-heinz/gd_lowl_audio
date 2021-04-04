@@ -264,7 +264,10 @@ sources = [
     "gd_lowl_error.cpp",
     "gd_lowl_driver.cpp",
     "gd_lowl_device.cpp",
+    "gd_lowl_audio_data.cpp",
+    "gd_lowl_audio_mixer.cpp",
     "gd_lowl_node.cpp",
+    "gd_lowl_space.cpp",
 ]
 module_env.add_source_files(env.modules_sources, sources)
 # endregion

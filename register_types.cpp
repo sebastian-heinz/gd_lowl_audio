@@ -5,6 +5,9 @@
 #include "gd_lowl_driver.h"
 #include "gd_lowl_device.h"
 #include "gd_lowl_node.h"
+#include "gd_lowl_space.h"
+#include "gd_lowl_audio_mixer.h"
+#include "gd_lowl_audio_data.h"
 
 #include <core/config/engine.h>
 
@@ -20,6 +23,9 @@ void register_gd_lowl_audio_types() {
     ClassDB::register_class<GdLowlDriver>();
     ClassDB::register_class<GdLowlDevice>();
     ClassDB::register_class<GdLowlNode>();
+    ClassDB::register_class<GdLowlSpace>();
+    ClassDB::register_class<GdLowlAudioData>();
+    ClassDB::register_class<GdLowlAudioMixer>();
 }
 
 void unregister_gd_lowl_audio_types() {
