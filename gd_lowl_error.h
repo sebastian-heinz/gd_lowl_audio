@@ -1,9 +1,9 @@
 #ifndef GD_LOWL_ERROR_H
 #define GD_LOWL_ERROR_H
 
-#include <lowl_error.h>
-
 #include "core/object/class_db.h"
+
+#include "lowl_error.h"
 
 class GdLowlError : public Object {
 GDCLASS(GdLowlError, Object);

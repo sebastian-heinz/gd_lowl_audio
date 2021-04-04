@@ -1,8 +1,8 @@
 #include "gd_lowl_driver.h"
 
 void GdLowlDriver::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_devices"), &GdLowlDriver::bind_get_devices);
-    ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDriver::bind_get_name);
+    ClassDB::bind_method(D_METHOD("get_devices"), &GdLowlDriver::get_devices);
+    ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDriver::get_name);
     ClassDB::bind_method(D_METHOD("initialize"), &GdLowlDriver::initialize);
 }
 
@@ -31,19 +31,11 @@ GdLowlError::Code GdLowlDriver::initialize() {
     return GdLowlError::Code::NoError;
 }
 
-std::vector<Ref<GdLowlDevice>> GdLowlDriver::get_devices() const {
-    return std::vector<Ref<GdLowlDevice>>(devices);
+String GdLowlDriver::get_name() const {
+    return String(driver->get_name().c_str());
 }
 
-std::string GdLowlDriver::get_name() const {
-    return driver->get_name();
-}
-
-String GdLowlDriver::bind_get_name() const {
-    return String(get_name().c_str());
-}
-
-Array GdLowlDriver::bind_get_devices() const {
+Array GdLowlDriver::get_devices() const {
     Array gd_devices = Array();
     for (Ref<GdLowlDevice> device : devices) {
         gd_devices.push_back(device);

@@ -1,5 +1,11 @@
 #include "gd_lowl_device.h"
 
+void GdLowlDevice::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDevice::get_name);
+    ClassDB::bind_method(D_METHOD("start_mixer", "mixer"), &GdLowlDevice::start_mixer);
+    ClassDB::bind_method(D_METHOD("stop", "stop"), &GdLowlDevice::stop);
+}
+
 GdLowlDevice::GdLowlDevice(Lowl::Device *p_device) {
     device = p_device;
 }
@@ -9,25 +15,17 @@ GdLowlDevice::~GdLowlDevice() {
 }
 
 GdLowlError::Code GdLowlDevice::stop() {
-    return GdLowlError::Code::NoError;
+    Lowl::Error err;
+    device->stop(err);
+    return GdLowlError::convert(err.get_error());
 }
 
-GdLowlError::Code GdLowlDevice::start() {
-    return GdLowlError::Code::NoError;
+GdLowlError::Code GdLowlDevice::start_mixer(const Ref<GdLowlAudioMixer> &p_mixer) {
+    Lowl::Error err;
+    device->start_mixer(p_mixer->get_audio_mixer(), err);
+    return GdLowlError::convert(err.get_error());
 }
 
-GdLowlError::Code GdLowlDevice::play() {
-    return GdLowlError::Code::NoError;
-}
-
-std::string GdLowlDevice::get_name() const {
-    return device->get_name();
-}
-
-String GdLowlDevice::bind_get_name() const {
-    return String(get_name().c_str());
-}
-
-void GdLowlDevice::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDevice::bind_get_name);
+String GdLowlDevice::get_name() const {
+    return String(device->get_name().c_str());
 }

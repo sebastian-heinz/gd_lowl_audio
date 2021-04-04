@@ -35,5 +35,4 @@ public:
     ~GdLowlAudioMixer();
 };
 
-
 #endif //GD_LOWL_AUDIO_MIXER_H

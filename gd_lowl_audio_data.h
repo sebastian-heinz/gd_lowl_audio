@@ -5,7 +5,6 @@
 #include "core/object/reference.h"
 
 #include "gd_lowl_error.h"
-
 #include "lowl_audio_data.h"
 
 #include <memory>

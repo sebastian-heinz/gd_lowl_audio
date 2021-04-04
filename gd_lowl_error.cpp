@@ -12,6 +12,7 @@ GdLowlError::Code GdLowlError::convert(Lowl::ErrorCode error) {
             return GdLowlError::Code::NoError;
         case Lowl::ErrorCode::Error:
             return GdLowlError::Code::Error;
+        default:
+            return GdLowlError::Code::Error;
     }
-    return GdLowlError::Code::NoError;
 }

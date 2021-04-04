@@ -1,5 +1,7 @@
 #include "gd_lowl.h"
 
+#include "lowl.h"
+
 GdLowl *GdLowl::singleton = nullptr;
 
 GdLowl *GdLowl::get_singleton() {

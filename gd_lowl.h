@@ -1,12 +1,10 @@
 #ifndef GD_LOWL_H
 #define GD_LOWL_H
 
-#include "gd_lowl_driver.h"
-#include "gd_lowl_error.h"
-
 #include "core/object/class_db.h"
 
-#include <lowl.h>
+#include "gd_lowl_driver.h"
+#include "gd_lowl_error.h"
 
 #include <vector>
 

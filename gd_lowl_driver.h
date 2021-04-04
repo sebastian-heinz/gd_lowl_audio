@@ -29,16 +29,11 @@ protected:
     static void _bind_methods();
 
 public:
-    Array bind_get_devices() const;
+    Array get_devices() const;
 
-    String bind_get_name() const;
+    String get_name() const;
 
-public:
     GdLowlError::Code initialize();
-
-    std::vector<Ref<GdLowlDevice>> get_devices() const;
-
-    std::string get_name() const;
 
     GdLowlDriver(Lowl::Driver *p_driver);
 
