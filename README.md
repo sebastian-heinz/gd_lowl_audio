@@ -35,7 +35,7 @@ func _ready():
 	# initialize GdLowl
 	var err = GdLowl.init()
 	if err != GdLowlError.NoError:
-		push_error("init: %s" % err)
+		push_error("GdLowl.init(): %s" % err)
 		return
 		
 	# iterate available drivers and devices
@@ -43,7 +43,10 @@ func _ready():
 	for _driver in GdLowl.get_drivers():
 		var driver : GdLowlDriver = _driver;
 		print("driver: %s" % driver.get_name())
-		
+		err = driver.initialize()
+		if err != GdLowlError.NoError:
+			push_error("driver.initialize(): %s" % err)
+			return
 		for _device in driver.get_devices():
 			var device : GdLowlDevice = _device;
 			print("device: %s" % device.get_name())
@@ -69,17 +72,23 @@ func _ready():
 	# register it with the device
 	err = selected_device.start_mixer(space_mixer)
 	if err != GdLowlError.NoError:
-		push_error("start_mixer: %s" % err)
+		push_error("selected_device.start_mixer(): %s" % err)
 		return
 		
 	# space is ready to play loaded sounds
 	space.play(audio_1)
 	space.play(audio_2)
 		
+	# wait for 10 seconds
+	var time = 10
+	while time >= 0:
+		OS.delay_msec(1000)
+		time = time - 1
+		
 	# when done, stop the device
 	err = selected_device.stop()
 	if err != GdLowlError.NoError:
-		push_error("stop: %s" % err)
+		push_error("selected_device.stop(): %s" % err)
 		return
 ```
 

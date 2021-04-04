@@ -3,7 +3,7 @@
 void GdLowlDevice::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDevice::get_name);
     ClassDB::bind_method(D_METHOD("start_mixer", "mixer"), &GdLowlDevice::start_mixer);
-    ClassDB::bind_method(D_METHOD("stop", "stop"), &GdLowlDevice::stop);
+    ClassDB::bind_method(D_METHOD("stop"), &GdLowlDevice::stop);
 }
 
 GdLowlDevice::GdLowlDevice(Lowl::Device *p_device) {

@@ -13,6 +13,7 @@ void GdLowlSpace::_bind_methods() {
 
 void GdLowlSpace::load() {
     space->load();
+    mixer = Ref<GdLowlAudioMixer>(memnew(GdLowlAudioMixer(space->get_mixer())));
 }
 
 void GdLowlSpace::play(Lowl::SpaceId p_id) {
@@ -63,7 +64,6 @@ Lowl::SpaceId GdLowlSpace::add_audio_path(const String &p_path) {
 GdLowlSpace::GdLowlSpace() {
     error = GdLowlError::NoError;
     space = std::make_unique<Lowl::Space>();
-    mixer = Ref<GdLowlAudioMixer>(memnew(GdLowlAudioMixer(space->get_mixer())));
 }
 
 GdLowlSpace::~GdLowlSpace() {
