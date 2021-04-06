@@ -181,28 +181,27 @@ for host_api in available_host_apis:
         # env.Append(CCFLAGS=["-lasound"])
         # env.Append(CPPPATH=["/usr/include/alsa"])
         # env.Append(LIBPATH=["/usr/lib/x86_64-linux-gnu"])
+        module_env.Append(CPPDEFINES=["PA_USE_ALSA"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/alsa"])
+        host_api_sources.append(pa_root + "/src/hostapi/alsa/pa_linux_alsa.c")
 
-    module_env.Append(CPPDEFINES=["PA_USE_ALSA"])
-    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/alsa"])
-    host_api_sources.append(pa_root + "/src/hostapi/alsa/pa_linux_alsa.c")
+    if (host_api == "asihpi"):
+        module_env.Append(CPPDEFINES=["PA_USE_ASIHPI"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/asihpi"])
+        host_api_sources.append(pa_root + "/src/hostapi/asihpi/pa_linux_asihpi.c")
 
-if (host_api == "asihpi"):
-    module_env.Append(CPPDEFINES=["PA_USE_ASIHPI"])
-    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/asihpi"])
-    host_api_sources.append(pa_root + "/src/hostapi/asihpi/pa_linux_asihpi.c")
+    if (host_api == "coreaudio"):
+        module_env.Append(CPPDEFINES=["PA_USE_COREAUDIO"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/coreaudio"])
+        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core.c")
+        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_blocking.c")
+        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_utilities.c")
 
-if (host_api == "coreaudio"):
-    module_env.Append(CPPDEFINES=["PA_USE_COREAUDIO"])
-    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/coreaudio"])
-    host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core.c")
-    host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_blocking.c")
-    host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_utilities.c")
-
-if (host_api == "oss"):
-    module_env.Append(CPPDEFINES=["PA_USE_OSS"])
-    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/oss"])
-    host_api_sources.append(pa_root + "/src/hostapi/oss/pa_unix_oss.c")
-    host_api_sources.append(pa_root + "/src/hostapi/oss/recplay.c")
+    if (host_api == "oss"):
+        module_env.Append(CPPDEFINES=["PA_USE_OSS"])
+        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/oss"])
+        host_api_sources.append(pa_root + "/src/hostapi/oss/pa_unix_oss.c")
+        host_api_sources.append(pa_root + "/src/hostapi/oss/recplay.c")
 
 pa_sources.append(host_api_sources)
 module_env.add_source_files(env.modules_sources, pa_sources)
