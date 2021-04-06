@@ -30,13 +30,13 @@ module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
 module_env.Append(CPPDEFINES=[('PA_GIT_REVISION', '')])
 use_host_api = [  # only APIs that are not commented will be build
     # "skeleton", # Test Host Api for developers
-    "asio",  # ASIO (Audio Streaming Input Output)
+    # "asio",  # ASIO (Audio Streaming Input Output)
     "dsound",  # Direct Sound
     # "jack",     #
     "wasapi",  # (WASAPI) Windows Audio Session API
     # "wdmks",    # (WDM/KS) Windows Driver Model/Kernel Streaming
     "wmme",  #
-    # "alsa" ,    #
+    "alsa",  #
     # "asihpi",   #
     "coreaudio",  #
     # "oss",      #
@@ -77,7 +77,7 @@ if module_env["platform"] == "windows":
     module_env.Append(CPPPATH=[pa_root + "/src/os/win"])
     pa_sources.append(win_sources)
 
-if module_env["platform"] == "x11":
+if module_env["platform"] == "linuxbsd":
     x11_sources = [
         pa_root + "/src/os/unix/pa_unix_hostapis.c",
         pa_root + "/src/os/unix/pa_unix_util.c",
@@ -170,27 +170,39 @@ for host_api in available_host_apis:
         host_api_sources.append(pa_root + "/src/hostapi/wmme/pa_win_wmme.c")
 
     if (host_api == "alsa"):
-        module_env.Append(CPPDEFINES=["PA_USE_ALSA"])
-        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/alsa"])
-        host_api_sources.append(pa_root + "/src/hostapi/alsa/pa_linux_alsa.c")
+        # disable Godot Alsa driver
+        # TODO is there a way to use WASAPI driver of godot?
+        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'ALSA_ENABLED' not in x]
+        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'ALSAMIDI_ENABLED' not in x]
+        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'PULSEAUDIO_ENABLED' not in x]
+        env.Append(LINKFLAGS=["/usr/lib/libasound.so"])
+        # module_env.Append(CPPDEFINES=["PA_ALSA_DYNAMIC"])
+        # module_env.Append(CPPDEFINES=[('PA_ALSA_PATHNAME', '/usr/lib/libasound.so')])
+        # env.Append(CCFLAGS=["-lasound"])
+        # env.Append(CPPPATH=["/usr/include/alsa"])
+        # env.Append(LIBPATH=["/usr/lib/x86_64-linux-gnu"])
 
-    if (host_api == "asihpi"):
-        module_env.Append(CPPDEFINES=["PA_USE_ASIHPI"])
-        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/asihpi"])
-        host_api_sources.append(pa_root + "/src/hostapi/asihpi/pa_linux_asihpi.c")
+    module_env.Append(CPPDEFINES=["PA_USE_ALSA"])
+    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/alsa"])
+    host_api_sources.append(pa_root + "/src/hostapi/alsa/pa_linux_alsa.c")
 
-    if (host_api == "coreaudio"):
-        module_env.Append(CPPDEFINES=["PA_USE_COREAUDIO"])
-        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/coreaudio"])
-        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core.c")
-        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_blocking.c")
-        host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_utilities.c")
+if (host_api == "asihpi"):
+    module_env.Append(CPPDEFINES=["PA_USE_ASIHPI"])
+    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/asihpi"])
+    host_api_sources.append(pa_root + "/src/hostapi/asihpi/pa_linux_asihpi.c")
 
-    if (host_api == "oss"):
-        module_env.Append(CPPDEFINES=["PA_USE_OSS"])
-        module_env.Append(CPPPATH=[pa_root + "/src/hostapi/oss"])
-        host_api_sources.append(pa_root + "/src/hostapi/oss/pa_unix_oss.c")
-        host_api_sources.append(pa_root + "/src/hostapi/oss/recplay.c")
+if (host_api == "coreaudio"):
+    module_env.Append(CPPDEFINES=["PA_USE_COREAUDIO"])
+    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/coreaudio"])
+    host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core.c")
+    host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_blocking.c")
+    host_api_sources.append(pa_root + "/src/hostapi/coreaudio/pa_mac_core_utilities.c")
+
+if (host_api == "oss"):
+    module_env.Append(CPPDEFINES=["PA_USE_OSS"])
+    module_env.Append(CPPPATH=[pa_root + "/src/hostapi/oss"])
+    host_api_sources.append(pa_root + "/src/hostapi/oss/pa_unix_oss.c")
+    host_api_sources.append(pa_root + "/src/hostapi/oss/recplay.c")
 
 pa_sources.append(host_api_sources)
 module_env.add_source_files(env.modules_sources, pa_sources)
@@ -228,6 +240,7 @@ lowl_sources = [
     lowl_root + "/src/lowl_audio_reader_flac.cpp",
     lowl_root + "/src/lowl_audio_reader_mp3.cpp",
     lowl_root + "/src/lowl_audio_reader_wav.cpp",
+    lowl_root + "/src/lowl_audio_source.cpp",
     lowl_root + "/src/lowl_audio_stream.cpp",
     lowl_root + "/src/lowl_buffer.cpp",
     lowl_root + "/src/lowl_device.cpp",
@@ -251,7 +264,7 @@ module_env.add_source_files(env.modules_sources, lowl_sources)
 
 if module_env["platform"] == "windows":
     module_env.Append(CPPDEFINES=["LOWL_WIN"])
-if module_env["platform"] == "x11":
+if module_env["platform"] == "linuxbsd":
     module_env.Append(CPPDEFINES=["LOWL_UNIX"])
 if module_env["platform"] == "osx":
     module_env.Append(CPPDEFINES=["LOWL_UNIX"])
