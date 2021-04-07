@@ -1,6 +1,7 @@
 #ifndef GD_LOWL_DEVICE_H
 #define GD_LOWL_DEVICE_H
 
+#include "core/object/class_db.h"
 #include "core/object/reference.h"
 
 #include "gd_lowl_error.h"

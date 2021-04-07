@@ -1,6 +1,7 @@
 #ifndef GD_LOWL_DRIVER_H
 #define GD_LOWL_DRIVER_H
 
+#include "core/object/class_db.h"
 #include "core/object/reference.h"
 
 #include "gd_lowl_error.h"
@@ -17,7 +18,7 @@ OBJ_CATEGORY("Lowl Audio");
 
 private:
     GdLowlDriver() {
-        // ClassDB::register_class<GdLowlDriver>();
+        //ClassDB::register_class<GdLowlDriver>();
         driver = nullptr;
     };
 
