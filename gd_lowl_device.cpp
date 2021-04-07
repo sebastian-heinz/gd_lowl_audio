@@ -22,7 +22,7 @@ GdLowlError::Code GdLowlDevice::stop() {
 
 GdLowlError::Code GdLowlDevice::start_mixer(const Ref<GdLowlAudioMixer> &p_mixer) {
     Lowl::Error err;
-    device->start_mixer(p_mixer->get_audio_mixer(), err);
+    device->start(p_mixer->get_audio_mixer(), err);
     return GdLowlError::convert(err.get_error());
 }
 
