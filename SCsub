@@ -29,17 +29,17 @@ module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
 # region portaudio
 module_env.Append(CPPDEFINES=[('PA_GIT_REVISION', '')])
 use_host_api = [  # only APIs that are not commented will be build
-    # "skeleton", # Test Host Api for developers
-    # "asio",  # ASIO (Audio Streaming Input Output)
-    "dsound",  # Direct Sound
-    # "jack",     #
+    #"skeleton", # Test Host Api for developers
+    #"asio",  # ASIO (Audio Streaming Input Output)
+    #"dsound",  # Direct Sound
+    #"jack",     #
     "wasapi",  # (WASAPI) Windows Audio Session API
-    # "wdmks",    # (WDM/KS) Windows Driver Model/Kernel Streaming
-    "wmme",  #
-    "alsa",  #
-    # "asihpi",   #
+    #"wdmks",    # (WDM/KS) Windows Driver Model/Kernel Streaming
+    #"wmme",  #
+    "alsa" ,    # Advanced Linux Sound Architecture
+    #"asihpi",   #
     "coreaudio",  #
-    # "oss",      #
+    #"oss",      #
 ]
 
 available_host_apis = []
