@@ -27,7 +27,10 @@ module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
 
 # region portaudio
-module_env.Append(CPPDEFINES=[('PA_GIT_REVISION', '')])
+
+# required to contain a string for windows to compile
+module_env.Append(CPPDEFINES=[('PA_GIT_REVISION', 'PA-GD_LOWL_AUDIO')])
+
 use_host_api = [  # only APIs that are not commented will be build
     #"skeleton", # Test Host Api for developers
     #"asio",  # ASIO (Audio Streaming Input Output)

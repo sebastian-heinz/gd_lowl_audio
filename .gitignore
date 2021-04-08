@@ -3,6 +3,7 @@ cmake-build-debug
 
 # General c++ generated files
 *.o
+*.obj
 
 # Jetbrains IDEs
 .idea/
