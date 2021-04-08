@@ -98,3 +98,7 @@ notes
 scons platform=osx arch=x86_64 --jobs=6
 scons --clean platform=osx arch=x86_64 --jobs=6
 ```
+
+```
+scons -j6 platform=windows vsproj=yes
+```
