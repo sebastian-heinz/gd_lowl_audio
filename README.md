@@ -31,7 +31,6 @@ extends Node
 class_name GdLowlSpaceTest
 
 func _ready():
-	
 	# initialize GdLowl
 	var err = GdLowl.init()
 	if err != GdLowlError.NoError:
@@ -40,20 +39,18 @@ func _ready():
 		
 	# iterate available drivers and devices
 	var available_devices = Array();
-	for _driver in GdLowl.get_drivers():
-		var driver : GdLowlDriver = _driver;
+	for driver in GdLowl.get_drivers():
 		print("driver: %s" % driver.get_name())
 		err = driver.initialize()
 		if err != GdLowlError.NoError:
 			push_error("driver.initialize(): %s" % err)
 			return
-		for _device in driver.get_devices():
-			var device : GdLowlDevice = _device;
+		for device in driver.get_devices():
 			print("device: %s" % device.get_name())
 			available_devices.push_back(device)
 	
 	# select desired device
-	var selected_device_index = 0;
+	var selected_device_index = 7;
 	if available_devices.size() <= 0:
 		push_error("available_devices.size() <= 0")
 		return
@@ -64,8 +61,12 @@ func _ready():
 	
 	# setup the space
 	var space : GdLowlSpace = GdLowlSpace.new()
-	var audio_1 : int = space.add_audio_path("/Users/railgun/Downloads/CantinaBand60.wav")
-	var audio_2 : int = space.add_audio_path("/Users/railgun/Downloads/StarWars60.wav")
+	var audio_1 : int = space.add_audio_path("/homerailgun/Downloads/CantinaBand60.wav")
+	if audio_1 == 0:
+		push_error("audio_1 - failed to add")
+	var audio_2 : int = space.add_audio_path("/home/railgun/Downloads/StarWars60.wav")	
+	if audio_2 == 0:
+		push_error("audio_2 - failed to add")
 	space.load()
 	var space_mixer : GdLowlAudioMixer = space.get_mixer()
 	

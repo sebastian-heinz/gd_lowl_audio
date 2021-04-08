@@ -170,17 +170,7 @@ for host_api in available_host_apis:
         host_api_sources.append(pa_root + "/src/hostapi/wmme/pa_win_wmme.c")
 
     if (host_api == "alsa"):
-        # disable Godot Alsa driver
-        # TODO is there a way to use WASAPI driver of godot?
-        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'ALSA_ENABLED' not in x]
-        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'ALSAMIDI_ENABLED' not in x]
-        env['CPPDEFINES'] = [x for x in env['CPPDEFINES'] if 'PULSEAUDIO_ENABLED' not in x]
-        env.Append(LINKFLAGS=["/usr/lib/libasound.so"])
-        # module_env.Append(CPPDEFINES=["PA_ALSA_DYNAMIC"])
-        # module_env.Append(CPPDEFINES=[('PA_ALSA_PATHNAME', '/usr/lib/libasound.so')])
-        # env.Append(CCFLAGS=["-lasound"])
-        # env.Append(CPPPATH=["/usr/include/alsa"])
-        # env.Append(LIBPATH=["/usr/lib/x86_64-linux-gnu"])
+        module_env.Append(CPPDEFINES=["PA_ALSA_DYNAMIC"])
         module_env.Append(CPPDEFINES=["PA_USE_ALSA"])
         module_env.Append(CPPPATH=[pa_root + "/src/hostapi/alsa"])
         host_api_sources.append(pa_root + "/src/hostapi/alsa/pa_linux_alsa.c")
