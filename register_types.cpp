@@ -8,6 +8,7 @@
 #include "gd_lowl_space.h"
 #include "gd_lowl_audio_mixer.h"
 #include "gd_lowl_audio_data.h"
+#include "gd_lowl_audio_source.h"
 
 #include <core/config/engine.h>
 
@@ -20,12 +21,17 @@ void register_gd_lowl_audio_types() {
     Engine::get_singleton()->add_singleton(Engine::Singleton("GdLowl", GdLowl::get_singleton()));
 
     ClassDB::register_class<GdLowlError>();
+
     ClassDB::register_class<GdLowlDriver>();
     ClassDB::register_class<GdLowlDevice>();
-    ClassDB::register_class<GdLowlNode>();
-    ClassDB::register_class<GdLowlSpace>();
-    ClassDB::register_class<GdLowlAudioData>();
+
+    ClassDB::register_virtual_class<GdLowlAudioSource>();
     ClassDB::register_class<GdLowlAudioMixer>();
+    ClassDB::register_class<GdLowlAudioData>();
+
+    ClassDB::register_class<GdLowlSpace>();
+
+    ClassDB::register_class<GdLowlNode>();
 }
 
 void unregister_gd_lowl_audio_types() {

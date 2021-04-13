@@ -101,8 +101,7 @@ if module_env["platform"] == "osx":
     available_host_apis.append("coreaudio")
     module_env.Append(CPPPATH=[pa_root + "/src/os/unix"])
     pa_sources.append(osx_sources)
-    # TODO can this be scoped to `module_env` ?
-    env.Append(LINKFLAGS=[
+    module_env.Append(LINKFLAGS=[
         "-framework",
         "CoreFoundation",
         "-framework",
@@ -235,6 +234,7 @@ lowl_sources = [
     lowl_root + "/src/lowl_audio_source.cpp",
     lowl_root + "/src/lowl_audio_stream.cpp",
     lowl_root + "/src/lowl_buffer.cpp",
+    lowl_root + "/src/lowl_channel_converter.cpp",
     lowl_root + "/src/lowl_device.cpp",
     lowl_root + "/src/lowl_device_pa.cpp",
     lowl_root + "/src/lowl_driver.cpp",
@@ -268,6 +268,7 @@ sources = [
     "gd_lowl.cpp",
     "gd_lowl_error.cpp",
     "gd_lowl_driver.cpp",
+    "gd_lowl_audio_source.cpp",
     "gd_lowl_device.cpp",
     "gd_lowl_audio_data.cpp",
     "gd_lowl_audio_mixer.cpp",

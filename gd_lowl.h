@@ -5,6 +5,8 @@
 
 #include "gd_lowl_driver.h"
 #include "gd_lowl_error.h"
+#include "gd_lowl_audio_mixer.h"
+#include "gd_lowl_audio_data.h"
 
 #include <vector>
 
@@ -26,14 +28,19 @@ public:
 
 public:
     Array get_drivers();
+
     GdLowlError::Code init();
+
     GdLowlError::Code finish();
+
+    Ref<GdLowlAudioMixer> create_mixer(double p_sample_rate, int p_channel);
+
+    Ref<GdLowlAudioData> create_data(Array p_audio_frames, double p_sample_rate, int p_channel);
 
     GdLowl();
 
     ~GdLowl();
 };
-
 
 
 #endif

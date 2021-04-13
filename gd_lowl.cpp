@@ -12,6 +12,8 @@ void GdLowl::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_drivers"), &GdLowl::get_drivers);
     ClassDB::bind_method(D_METHOD("init"), &GdLowl::init);
     ClassDB::bind_method(D_METHOD("finish"), &GdLowl::finish);
+    ClassDB::bind_method(D_METHOD("create_mixer", "sample_rate", "channel"), &GdLowl::create_mixer);
+    ClassDB::bind_method(D_METHOD("create_data", "audio_frames", "sample_rate", "channel"), &GdLowl::create_data);
 }
 
 GdLowl::GdLowl() {
@@ -59,4 +61,12 @@ GdLowlError::Code GdLowl::init() {
         drivers.push_back(gd_driver_ref);
     }
     return GdLowlError::NoError;
+}
+
+Ref<GdLowlAudioMixer> GdLowl::create_mixer(double p_sample_rate, int p_channel) {
+    return Ref<GdLowlAudioMixer>(memnew(GdLowlAudioMixer(p_sample_rate, p_channel)));
+}
+
+Ref<GdLowlAudioData> GdLowl::create_data(Array p_audio_frames, double p_sample_rate, int p_channel) {
+    return Ref<GdLowlAudioData>(memnew(GdLowlAudioData(p_audio_frames, p_sample_rate, p_channel)));
 }
