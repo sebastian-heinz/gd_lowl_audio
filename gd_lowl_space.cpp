@@ -41,10 +41,22 @@ void GdLowlSpace::set_channel(uint16_t p_channel) {
 }
 
 Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_data) {
-    return Lowl::Space::InvalidSpaceId;
-    // Lowl::Error err;
-    //space->add_audio(std::move(p_audio_data), err);
-    // error = GdLowlError::convert(err.get_error());
+    Lowl::Error err;
+    std::shared_ptr<Lowl::AudioData> audio_data = p_audio_data->get_audio_data();
+    if (!audio_data) {
+        return Lowl::Space::InvalidSpaceId;
+    }
+    Lowl::SpaceId id = space->add_audio(std::make_unique<Lowl::AudioData>(
+            audio_data->get_frames(),
+            audio_data->get_sample_rate(),
+            audio_data->get_channel()
+    ), err);
+    if (err.has_error()) {
+        error = GdLowlError::convert(err.get_error());
+        return Lowl::Space::InvalidSpaceId;
+    }
+    error = GdLowlError::NoError;
+    return id;
 }
 
 Lowl::SpaceId GdLowlSpace::add_audio_path(const String &p_path) {
