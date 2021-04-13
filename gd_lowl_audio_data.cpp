@@ -18,6 +18,10 @@ std::shared_ptr<Lowl::AudioData> GdLowlAudioData::get_audio_data() const {
     return audio_data;
 }
 
+GdLowlAudioData GdLowlAudioData::create_keysound(double begin_sec, double end_sec) {
+    return GdLowlAudioData::GdLowlAudioData(audio_data.create_keysound(begin_sec, end_sec));
+}
+
 GdLowlAudioData::GdLowlAudioData(Array p_audio_frames, double p_sample_rate, int p_channel) :
         GdLowlAudioSource(std::make_shared<Lowl::AudioData>(
                 convert_frames(p_audio_frames, p_channel), p_sample_rate, Lowl::get_channel(p_channel)

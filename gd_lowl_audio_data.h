@@ -24,6 +24,8 @@ protected:
 
 public:
     std::shared_ptr<Lowl::AudioData> get_audio_data() const;
+    
+    GdLowlAudioData create_keysound(double begin_sec, double end_sec)
 
     GdLowlAudioData();
 
