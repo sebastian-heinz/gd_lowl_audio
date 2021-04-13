@@ -19,19 +19,23 @@ private:
 
     static std::vector<Lowl::AudioFrame> convert_frames(Array p_audio_frames, int p_channel);
 
+    Lowl::Error err = Lowl::Error();
+
 protected:
     static void _bind_methods();
 
 public:
     std::shared_ptr<Lowl::AudioData> get_audio_data() const;
     
-    GdLowlAudioData create_keysound(double begin_sec, double end_sec)
+    GdLowlAudioData create_slice(double begin_sec, double end_sec);
 
     GdLowlAudioData();
 
     GdLowlAudioData(std::shared_ptr<Lowl::AudioData> p_audio_data);
 
     GdLowlAudioData(Array p_audio_frames, double p_sample_rate, int p_channel);
+
+    GdLowlAudioData(String p_audio_path);
 
     void cancel_read();
 
