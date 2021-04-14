@@ -73,5 +73,6 @@ Ref<GdLowlAudioData> GdLowl::create_data(Array p_audio_frames, double p_sample_r
 }
 
 Ref<GdLowlAudioData> GdLowl::create_data_from_path(String p_audio_path) {
-    return Ref<GdLowlAudioData>(memnew(GdLowlAudioData(p_audio_path)));
+    Lowl::Error error;
+    return Ref<GdLowlAudioData>(memnew(GdLowlAudioData(p_audio_path, error)));
 }
