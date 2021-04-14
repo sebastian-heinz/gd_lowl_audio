@@ -37,7 +37,7 @@ public:
 
     Ref<GdLowlAudioData> create_data(Array p_audio_frames, double p_sample_rate, int p_channel);
 
-    Ref<GdLowlAudioData> create_data(String p_audio_path);
+    Ref<GdLowlAudioData> create_data_from_path(String p_audio_path);
 
     GdLowl();
 

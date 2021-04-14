@@ -19,8 +19,8 @@ std::shared_ptr<Lowl::AudioData> GdLowlAudioData::get_audio_data() const {
 }
 
 GdLowlAudioData GdLowlAudioData::create_slice(double begin_sec, double end_sec) {
-    Lowl::AudioData slice = audio_data->create_slice(begin_sec, end_sec);
-    return GdLowlAudioData(std::make_shared<Lowl::AudioData>(slice));
+    std::shared_ptr<Lowl::AudioData> slice = audio_data->create_slice(begin_sec, end_sec);
+    return GdLowlAudioData(slice);
 }
 
 GdLowlAudioData::GdLowlAudioData(Array p_audio_frames, double p_sample_rate, int p_channel) :
