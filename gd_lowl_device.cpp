@@ -6,7 +6,7 @@ void GdLowlDevice::_bind_methods() {
     ClassDB::bind_method(D_METHOD("stop"), &GdLowlDevice::stop);
 }
 
-GdLowlDevice::GdLowlDevice(Lowl::Device *p_device) {
+GdLowlDevice::GdLowlDevice(std::shared_ptr<Lowl::Device> p_device) {
     device = p_device;
 }
 

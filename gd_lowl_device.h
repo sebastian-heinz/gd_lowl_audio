@@ -20,7 +20,7 @@ private:
     };
 
 private:
-    Lowl::Device *device;
+    std::shared_ptr<Lowl::Device> device;
 
 protected:
     static void _bind_methods();
@@ -38,7 +38,7 @@ public:
 
     GdLowlError::Code stop();
 
-    GdLowlDevice(Lowl::Device *p_device);
+    GdLowlDevice(std::shared_ptr<Lowl::Device> p_device);
 
     ~GdLowlDevice();
 };

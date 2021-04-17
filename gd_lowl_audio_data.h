@@ -33,8 +33,6 @@ public:
 
     GdLowlAudioData(Array p_audio_frames, double p_sample_rate, int p_channel);
 
-    GdLowlAudioData(String p_audio_path, Lowl::Error &error);
-
     void cancel_read();
 
     void reset_read();

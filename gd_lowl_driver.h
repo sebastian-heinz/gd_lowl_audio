@@ -23,7 +23,7 @@ private:
     };
 
 private:
-    Lowl::Driver *driver;
+    std::shared_ptr<Lowl::Driver> driver;
     std::vector<Ref<GdLowlDevice>> devices;
 
 protected:
@@ -36,7 +36,7 @@ public:
 
     GdLowlError::Code initialize();
 
-    GdLowlDriver(Lowl::Driver *p_driver);
+    GdLowlDriver(std::shared_ptr<Lowl::Driver> p_driver);
 
     ~GdLowlDriver();
 };

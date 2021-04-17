@@ -36,11 +36,6 @@ GdLowlAudioData::GdLowlAudioData(std::shared_ptr<Lowl::AudioData> p_audio_data) 
     audio_data = std::dynamic_pointer_cast<Lowl::AudioData>(get_audio_source());
 }
 
-GdLowlAudioData::GdLowlAudioData(String p_audio_path, Lowl::Error &error) :
-        GdLowlAudioSource(Lowl::Lib::create_data(p_audio_path.utf8().get_data(), error)) {
-    audio_data = std::dynamic_pointer_cast<Lowl::AudioData>(get_audio_source());
-}
-
 GdLowlAudioData::GdLowlAudioData() :
         GdLowlAudioSource(nullptr) {
     audio_data = nullptr;

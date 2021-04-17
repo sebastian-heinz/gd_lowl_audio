@@ -51,12 +51,12 @@ GdLowlError::Code GdLowl::init() {
         print_line(vformat("GdLowl::GdLowl:initialize: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
-    std::vector<Lowl::Driver *> lowl_drivers = Lowl::Lib::get_drivers(error);
+    std::vector<std::shared_ptr<Lowl::Driver>> lowl_drivers = Lowl::Lib::get_drivers(error);
     if (error.has_error()) {
         print_line(vformat("GdLowl::GdLowl:get_drivers: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
-    for (Lowl::Driver *lowl_driver : lowl_drivers) {
+    for (std::shared_ptr<Lowl::Driver> lowl_driver : lowl_drivers) {
         GdLowlDriver *gd_driver = memnew(GdLowlDriver(lowl_driver));
         Ref<GdLowlDriver> gd_driver_ref = Ref<GdLowlDriver>(gd_driver);
         drivers.push_back(gd_driver_ref);
@@ -74,5 +74,9 @@ Ref<GdLowlAudioData> GdLowl::create_data(Array p_audio_frames, double p_sample_r
 
 Ref<GdLowlAudioData> GdLowl::create_data_from_path(String p_audio_path) {
     Lowl::Error error;
-    return Ref<GdLowlAudioData>(memnew(GdLowlAudioData(p_audio_path, error)));
+    std::unique_ptr<Lowl::AudioData> data = Lowl::Lib::create_data(p_audio_path.utf8().get_data(), error);
+    if (error.has_error()) {
+        return Ref<GdLowlAudioData>();
+    }
+    return Ref<GdLowlAudioData>(memnew(GdLowlAudioData(std::move(data))));
 }
