@@ -39,6 +39,8 @@ public:
 
     Ref<GdLowlAudioData> create_data_from_path(String p_audio_path);
 
+    Ref<GdLowlDevice> get_default_device() const;
+
     GdLowl();
 
     ~GdLowl();

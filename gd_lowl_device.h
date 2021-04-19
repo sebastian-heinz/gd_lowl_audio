@@ -26,11 +26,11 @@ protected:
     static void _bind_methods();
 
 public:
-    bool is_supported(int p_channel, double p_sample_rate, GdLowlAudioSource::SampleFormat p_sample_format);
-
     double get_default_sample_rate();
 
-    bool is_supported(const Ref<GdLowlAudioSource> &p_audio_source);
+    bool is_supported_source(const Ref<GdLowlAudioSource> &p_audio_source);
+
+    bool is_supported(int p_channel, double p_sample_rate, GdLowlAudioSource::SampleFormat p_sample_format);
 
     String get_name() const;
 

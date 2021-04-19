@@ -25,12 +25,15 @@ private:
 private:
     std::shared_ptr<Lowl::Driver> driver;
     std::vector<Ref<GdLowlDevice>> devices;
+    Ref<GdLowlDevice> default_device;
 
 protected:
     static void _bind_methods();
 
 public:
     Array get_devices() const;
+
+    Ref<GdLowlDevice> get_default_device() const;
 
     String get_name() const;
 

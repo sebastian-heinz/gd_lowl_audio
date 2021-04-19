@@ -4,10 +4,12 @@ void GdLowlDriver::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_devices"), &GdLowlDriver::get_devices);
     ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDriver::get_name);
     ClassDB::bind_method(D_METHOD("initialize"), &GdLowlDriver::initialize);
+    ClassDB::bind_method(D_METHOD("get_default_device"), &GdLowlDriver::get_default_device);
 }
 
 GdLowlDriver::GdLowlDriver(std::shared_ptr<Lowl::Driver> p_driver) {
     driver = p_driver;
+    default_device = Ref<GdLowlDevice>();
 }
 
 GdLowlDriver::~GdLowlDriver() {
@@ -27,6 +29,9 @@ GdLowlError::Code GdLowlDriver::initialize() {
         GdLowlDevice *gd_device = memnew(GdLowlDevice(lowl_device));
         Ref<GdLowlDevice> gd_device_ref = Ref<GdLowlDevice>(gd_device);
         devices.push_back(gd_device_ref);
+        if (lowl_device == driver->get_default_device()) {
+            default_device = gd_device_ref;
+        }
     }
     return GdLowlError::Code::NoError;
 }
@@ -41,4 +46,8 @@ Array GdLowlDriver::get_devices() const {
         gd_devices.push_back(device);
     }
     return gd_devices;
+}
+
+Ref<GdLowlDevice> GdLowlDriver::get_default_device() const {
+    return default_device;
 }
