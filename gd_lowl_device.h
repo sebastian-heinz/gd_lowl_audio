@@ -32,6 +32,10 @@ public:
 
     bool is_supported(int p_channel, double p_sample_rate, GdLowlAudioSource::SampleFormat p_sample_format);
 
+    void set_exclusive_mode(bool p_exclusive_mode);
+
+    bool is_exclusive_mode() const;
+
     String get_name() const;
 
     GdLowlError::Code start(const Ref<GdLowlAudioSource> &p_audio_source);

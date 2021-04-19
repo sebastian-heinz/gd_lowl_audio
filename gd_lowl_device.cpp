@@ -5,8 +5,11 @@ void GdLowlDevice::_bind_methods() {
     ClassDB::bind_method(D_METHOD("start", "audio_source"), &GdLowlDevice::start);
     ClassDB::bind_method(D_METHOD("stop"), &GdLowlDevice::stop);
     ClassDB::bind_method(D_METHOD("is_supported", "audio_source"), &GdLowlDevice::is_supported_source);
-    ClassDB::bind_method(D_METHOD("is_supported", "channel", "sample_rate", "sample_format"), &GdLowlDevice::is_supported);
+    ClassDB::bind_method(D_METHOD("is_supported", "channel", "sample_rate", "sample_format"),
+                         &GdLowlDevice::is_supported);
     ClassDB::bind_method(D_METHOD("get_default_sample_rate"), &GdLowlDevice::get_default_sample_rate);
+    ClassDB::bind_method(D_METHOD("set_exclusive_mode", "exclusive_mode"), &GdLowlDevice::set_exclusive_mode);
+    ClassDB::bind_method(D_METHOD("is_exclusive_mode"), &GdLowlDevice::is_exclusive_mode);
 }
 
 GdLowlDevice::GdLowlDevice(std::shared_ptr<Lowl::Device> p_device) {
@@ -45,6 +48,16 @@ double GdLowlDevice::get_default_sample_rate() {
 
 bool GdLowlDevice::is_supported(int p_channel, double p_sample_rate, GdLowlAudioSource::SampleFormat p_sample_format) {
     Lowl::Error err;
-    bool supported = device->is_supported((Lowl::Channel)p_channel, p_sample_rate, (Lowl::SampleFormat)p_sample_format, err);
+    bool supported = device->is_supported((Lowl::Channel) p_channel, p_sample_rate,
+                                          (Lowl::SampleFormat) p_sample_format, err);
     return supported;
+}
+
+void GdLowlDevice::set_exclusive_mode(bool p_exclusive_mode) {
+    Lowl::Error err;
+    device->set_exclusive_mode(p_exclusive_mode, err);
+}
+
+bool GdLowlDevice::is_exclusive_mode() const {
+    return device->is_exclusive_mode();
 }

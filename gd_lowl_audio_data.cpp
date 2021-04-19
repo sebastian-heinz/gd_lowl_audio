@@ -1,10 +1,9 @@
 #include "gd_lowl_audio_data.h"
-#include "lowl.h"
 
 void GdLowlAudioData::_bind_methods() {
     ClassDB::bind_method(D_METHOD("cancel_read"), &GdLowlAudioData::cancel_read);
     ClassDB::bind_method(D_METHOD("reset_read"), &GdLowlAudioData::reset_read);
-    ClassDB::bind_method(D_METHOD("create_slice", "p_begin_sec", "p_end_sec"), &GdLowlAudioData::create_slice);
+    ClassDB::bind_method(D_METHOD("create_slice", "begin_sec", "end_sec"), &GdLowlAudioData::create_slice);
 }
 
 void GdLowlAudioData::cancel_read() {
