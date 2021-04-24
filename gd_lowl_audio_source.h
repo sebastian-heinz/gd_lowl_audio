@@ -40,6 +40,14 @@ public:
 
     int get_channel() const;
 
+    void set_volume(double p_volume);
+
+    double get_volume();
+
+    void set_panning(double p_panning);
+
+    double get_panning();
+
     std::shared_ptr<Lowl::AudioSource> get_audio_source() const;
 
     GdLowlAudioSource(std::shared_ptr<Lowl::AudioSource> p_audio_source);
