@@ -1,7 +1,7 @@
 #include "gd_lowl_space.h"
 
 void GdLowlSpace::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("play", "space_id"), &GdLowlSpace::play);
+    ClassDB::bind_method(D_METHOD("play", "space_id", "p_volume", "p_panning"), &GdLowlSpace::play);
     ClassDB::bind_method(D_METHOD("stop", "space_id"), &GdLowlSpace::stop);
     ClassDB::bind_method(D_METHOD("get_mixer"), &GdLowlSpace::get_mixer);
     ClassDB::bind_method(D_METHOD("load"), &GdLowlSpace::load);
@@ -16,8 +16,8 @@ void GdLowlSpace::load() {
     mixer = Ref<GdLowlAudioMixer>(memnew(GdLowlAudioMixer(space->get_mixer())));
 }
 
-void GdLowlSpace::play(Lowl::SpaceId p_id) {
-    space->play(p_id);
+void GdLowlSpace::play(Lowl::SpaceId p_id, double p_volume, double p_panning) {
+    space->play(p_id, p_volume, p_panning);
 }
 
 void GdLowlSpace::stop(Lowl::SpaceId p_id) {
@@ -49,7 +49,9 @@ Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_da
     Lowl::SpaceId id = space->add_audio(std::make_unique<Lowl::AudioData>(
             audio_data->get_frames(),
             audio_data->get_sample_rate(),
-            audio_data->get_channel()
+            audio_data->get_channel(),
+            audio_data->get_volume(),
+            audio_data->get_panning()
     ), err);
     if (err.has_error()) {
         error = GdLowlError::convert(err.get_error());
