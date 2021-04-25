@@ -25,7 +25,7 @@ protected:
     static void _bind_methods();
 
 public:
-    void play(Lowl::SpaceId p_id);
+    void play(Lowl::SpaceId p_id, double p_volume = 1.0, double p_panning = 0.5);
 
     void stop(Lowl::SpaceId p_id);
 
