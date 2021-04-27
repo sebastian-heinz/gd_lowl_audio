@@ -14,7 +14,7 @@ GdLowlAudioMixer::GdLowlAudioMixer(std::shared_ptr<Lowl::AudioMixer> p_audio_mix
     audio_mixer = p_audio_mixer;
 }
 
-GdLowlAudioMixer::GdLowlAudioMixer(double p_sample_rate, int p_channel) :
+GdLowlAudioMixer::GdLowlAudioMixer(int p_channel, double p_sample_rate) :
         GdLowlAudioSource(std::make_shared<Lowl::AudioMixer>(p_sample_rate, Lowl::get_channel(p_channel))) {
     audio_mixer = std::dynamic_pointer_cast<Lowl::AudioMixer>(get_audio_source());
 }
