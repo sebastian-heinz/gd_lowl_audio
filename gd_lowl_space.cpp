@@ -9,6 +9,8 @@ void GdLowlSpace::_bind_methods() {
     ClassDB::bind_method(D_METHOD("add_audio_data", "data"), &GdLowlSpace::add_audio_data);
     ClassDB::bind_method(D_METHOD("set_sample_rate", "sample_rate"), &GdLowlSpace::set_sample_rate);
     ClassDB::bind_method(D_METHOD("set_channel", "channel"), &GdLowlSpace::set_channel);
+    ClassDB::bind_method(D_METHOD("set_volume", "p_id", "p_volume"), &GdLowlSpace::set_volume);
+    ClassDB::bind_method(D_METHOD("set_panning", "p_id", "p_panning"), &GdLowlSpace::set_panning);
 }
 
 void GdLowlSpace::load() {
@@ -38,6 +40,14 @@ void GdLowlSpace::set_sample_rate(Lowl::SampleRate p_sample_rate) {
 
 void GdLowlSpace::set_channel(uint16_t p_channel) {
     space->set_channel(Lowl::get_channel(p_channel));
+}
+
+void GdLowlSpace::set_volume(Lowl::SpaceId p_id, double p_volume) {
+    space->set_volume(p_id, p_volume);
+}
+    
+void GdLowlSpace::set_panning(Lowl::SpaceId p_id, double p_panning){
+    space->set_panning(p_id, p_panning);
 }
 
 Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_data) {

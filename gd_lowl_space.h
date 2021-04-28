@@ -41,6 +41,10 @@ public:
 
     void set_channel(uint16_t p_channel);
 
+    void set_volume(Lowl::SpaceId p_id, double p_volume);
+    
+    void set_panning(Lowl::SpaceId p_id, double p_panning);
+
     Ref<GdLowlAudioMixer> get_mixer();
 
     GdLowlSpace();

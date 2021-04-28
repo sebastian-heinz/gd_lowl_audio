@@ -4,8 +4,8 @@ void GdLowlDevice::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_name"), &GdLowlDevice::get_name);
     ClassDB::bind_method(D_METHOD("start", "audio_source"), &GdLowlDevice::start);
     ClassDB::bind_method(D_METHOD("stop"), &GdLowlDevice::stop);
-    ClassDB::bind_method(D_METHOD("is_supported", "audio_source"), &GdLowlDevice::is_supported_source);
-    ClassDB::bind_method(D_METHOD("is_supported", "channel", "sample_rate", "sample_format"),
+    ClassDB::bind_method(D_METHOD("is_source_supported", "audio_source"), &GdLowlDevice::is_supported_source);
+    ClassDB::bind_method(D_METHOD("is_format_supported", "channel", "sample_rate", "sample_format"),
                          &GdLowlDevice::is_supported);
     ClassDB::bind_method(D_METHOD("get_default_sample_rate"), &GdLowlDevice::get_default_sample_rate);
     ClassDB::bind_method(D_METHOD("set_exclusive_mode", "exclusive_mode"), &GdLowlDevice::set_exclusive_mode);

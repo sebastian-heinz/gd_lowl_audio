@@ -31,7 +31,7 @@ public:
 
     GdLowlAudioMixer(std::shared_ptr<Lowl::AudioMixer> p_audio_mixer);
 
-    GdLowlAudioMixer(double p_sample_rate, int p_channel);
+    GdLowlAudioMixer(int p_channel, double p_sample_rate);
 
     ~GdLowlAudioMixer() = default;
 };
