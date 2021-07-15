@@ -2,7 +2,7 @@
 #define GD_LOWL_DRIVER_H
 
 #include "core/object/class_db.h"
-#include "core/object/reference.h"
+#include "core/object/ref_counted.h"
 
 #include "gd_lowl_error.h"
 #include "gd_lowl_device.h"
@@ -12,8 +12,8 @@
 
 #include <memory>
 
-class GdLowlDriver : public Reference {
-GDCLASS(GdLowlDriver, Reference);
+class GdLowlDriver : public RefCounted {
+GDCLASS(GdLowlDriver, RefCounted);
 OBJ_CATEGORY("Lowl Audio");
 
 private:

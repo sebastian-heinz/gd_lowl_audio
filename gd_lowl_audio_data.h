@@ -2,7 +2,7 @@
 #define GD_LOWL_AUDIO_DATA_H
 
 #include "core/object/class_db.h"
-#include "core/object/reference.h"
+#include "core/object/ref_counted.h"
 
 #include "gd_lowl_error.h"
 #include "gd_lowl_audio_source.h"

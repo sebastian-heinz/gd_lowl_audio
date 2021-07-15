@@ -2,13 +2,14 @@
 #define GD_LOWL_AUDIO_SOURCE_H
 
 #include "core/object/class_db.h"
-#include "core/object/reference.h"
+#include "core/object/ref_counted.h"
 
 #include "lowl_sample_format.h"
 #include "lowl_audio_source.h"
+#include <memory>
 
-class GdLowlAudioSource : public Reference {
-GDCLASS(GdLowlAudioSource, Reference);
+class GdLowlAudioSource : public RefCounted {
+GDCLASS(GdLowlAudioSource, RefCounted);
 OBJ_CATEGORY("Lowl Audio");
 
 public:
