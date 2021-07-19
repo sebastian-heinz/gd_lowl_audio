@@ -2,15 +2,15 @@
 #define GD_LOWL_DEVICE_H
 
 #include "core/object/class_db.h"
-#include "core/object/reference.h"
+#include "core/object/ref_counted.h"
 
 #include "gd_lowl_error.h"
 #include "gd_lowl_audio_source.h"
 
 #include "lowl_device.h"
 
-class GdLowlDevice : public Reference {
-GDCLASS(GdLowlDevice, Reference);
+class GdLowlDevice : public RefCounted {
+GDCLASS(GdLowlDevice, RefCounted);
 OBJ_CATEGORY("Lowl Audio");
 
 private:
