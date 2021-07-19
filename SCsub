@@ -246,6 +246,7 @@ lowl_sources = [
     lowl_root + "/src/lowl_re_sampler.cpp",
     lowl_root + "/src/lowl_sample_converter.cpp",
     lowl_root + "/src/lowl_space.cpp",
+    lowl_root + "/src/lowl_logger.cpp",
     lowl_root + "/src/node/lowl_node.cpp",
     lowl_root + "/src/node/lowl_node_in_stream.cpp",
     lowl_root + "/src/node/lowl_node_out_stream.cpp",
