@@ -39,7 +39,7 @@ GdLowlError::Code GdLowl::finish() {
     Lowl::Error error;
     Lowl::Lib::terminate(error);
     if (error.has_error()) {
-        print_line(vformat("GdLowl::~GdLowl: error: %d", error.get_error_code()));
+        print_error(vformat("GdLowl::~GdLowl: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
     return GdLowlError::NoError;
@@ -49,12 +49,12 @@ GdLowlError::Code GdLowl::init() {
     Lowl::Error error;
     Lowl::Lib::initialize(error);
     if (error.has_error()) {
-        print_line(vformat("GdLowl::GdLowl:initialize: error: %d", error.get_error_code()));
+        print_error(vformat("GdLowl::GdLowl:initialize: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
     std::vector<std::shared_ptr<Lowl::Driver>> lowl_drivers = Lowl::Lib::get_drivers(error);
     if (error.has_error()) {
-        print_line(vformat("GdLowl::GdLowl:get_drivers: error: %d", error.get_error_code()));
+        print_error(vformat("GdLowl::GdLowl:get_drivers: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
     for (std::shared_ptr<Lowl::Driver> lowl_driver : lowl_drivers) {
@@ -62,7 +62,7 @@ GdLowlError::Code GdLowl::init() {
         Ref<GdLowlDriver> gd_driver_ref = Ref<GdLowlDriver>(gd_driver);
         drivers.push_back(gd_driver_ref);
     }
-    return GdLowlError::NoError;
+    return GdLowlError::Code::NoError;
 }
 
 Ref<GdLowlAudioMixer> GdLowl::create_mixer(int p_channel, double p_sample_rate) {

@@ -23,7 +23,12 @@ GdLowlDevice::~GdLowlDevice() {
 GdLowlError::Code GdLowlDevice::stop() {
     Lowl::Error err;
     device->stop(err);
-    return GdLowlError::convert(err.get_error());
+    if (err.has_error()) {
+        print_error(vformat("GdLowl::GdLowlDevice:stop: error: %d", err.get_error_code()));
+    }
+    GdLowlError::Code code = GdLowlError::convert(err.get_error());
+    print_line(vformat("GdLowl::GdLowlDevice: stop: %d", code));
+    return code;
 }
 
 String GdLowlDevice::get_name() const {
@@ -33,7 +38,12 @@ String GdLowlDevice::get_name() const {
 GdLowlError::Code GdLowlDevice::start(const Ref<GdLowlAudioSource> &p_audio_source) {
     Lowl::Error err;
     device->start(p_audio_source->get_audio_source(), err);
-    return GdLowlError::convert(err.get_error());
+    if (err.has_error()) {
+        print_error(vformat("GdLowl::GdLowlDevice:start: error: %d", err.get_error_code()));
+    }
+    GdLowlError::Code code = GdLowlError::convert(err.get_error());
+    print_line(vformat("GdLowl::GdLowlDevice: start: %d", code));
+    return code;
 }
 
 bool GdLowlDevice::is_supported_source(const Ref<GdLowlAudioSource> &p_audio_source) {
