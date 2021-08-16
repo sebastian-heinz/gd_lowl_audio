@@ -3,6 +3,7 @@
 void GdLowlAudioMixer::_bind_methods() {
     ClassDB::add_virtual_method(get_class_static(), MethodInfo("_init"));
     ClassDB::bind_method(D_METHOD("mix", "audio_source"), &GdLowlAudioMixer::mix);
+    ClassDB::bind_method(D_METHOD("remove", "audio_source"), &GdLowlAudioMixer::remove);
 }
 
 std::shared_ptr<Lowl::AudioMixer> GdLowlAudioMixer::get_audio_mixer() const {
@@ -21,6 +22,10 @@ GdLowlAudioMixer::GdLowlAudioMixer(int p_channel, double p_sample_rate) :
 
 void GdLowlAudioMixer::mix(const Ref<GdLowlAudioSource> &p_audio_source) {
     audio_mixer->mix(p_audio_source->get_audio_source());
+}
+
+void GdLowlAudioMixer::remove(const Ref<GdLowlAudioSource> &p_audio_source) {
+    audio_mixer->remove(p_audio_source->get_audio_source());
 }
 
 GdLowlAudioMixer::GdLowlAudioMixer() : GdLowlAudioSource(nullptr) {

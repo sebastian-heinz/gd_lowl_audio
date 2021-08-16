@@ -1,53 +1,26 @@
 #include "gd_lowl_space.h"
 
 void GdLowlSpace::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("play", "space_id", "p_volume", "p_panning"), &GdLowlSpace::play);
-    ClassDB::bind_method(D_METHOD("stop", "space_id"), &GdLowlSpace::stop);
-    ClassDB::bind_method(D_METHOD("get_mixer"), &GdLowlSpace::get_mixer);
-    ClassDB::bind_method(D_METHOD("load"), &GdLowlSpace::load);
+    ClassDB::bind_method(D_METHOD("play_audio", "space_id"), &GdLowlSpace::play_audio);
+    ClassDB::bind_method(D_METHOD("play_audio_ex", "space_id", "volume", "panning"), &GdLowlSpace::play_audio_ex);
+    ClassDB::bind_method(D_METHOD("stop_audio", "space_id"), &GdLowlSpace::stop_audio);
     ClassDB::bind_method(D_METHOD("add_audio_path", "path"), &GdLowlSpace::add_audio_path);
     ClassDB::bind_method(D_METHOD("add_audio_data", "data"), &GdLowlSpace::add_audio_data);
-    ClassDB::bind_method(D_METHOD("set_sample_rate", "sample_rate"), &GdLowlSpace::set_sample_rate);
-    ClassDB::bind_method(D_METHOD("set_channel", "channel"), &GdLowlSpace::set_channel);
-    ClassDB::bind_method(D_METHOD("set_volume", "p_id", "p_volume"), &GdLowlSpace::set_volume);
-    ClassDB::bind_method(D_METHOD("set_panning", "p_id", "p_panning"), &GdLowlSpace::set_panning);
+    ClassDB::bind_method(D_METHOD("set_audio_volume", "space_id", "volume"), &GdLowlSpace::set_audio_volume);
+    ClassDB::bind_method(D_METHOD("set_audio_panning", "space_id", "panning"), &GdLowlSpace::set_audio_panning);
+    ClassDB::bind_method(D_METHOD("reset_audio", "space_id"), &GdLowlSpace::reset_audio);
+    ClassDB::bind_method(D_METHOD("seek_audio_time", "space_id", "time_seconds"), &GdLowlSpace::seek_audio_time);
+    ClassDB::bind_method(D_METHOD("seek_audio_frame", "space_id", "frame"), &GdLowlSpace::seek_audio_frame);
 }
 
-void GdLowlSpace::load() {
-    space->load();
-    mixer = Ref<GdLowlAudioMixer>(memnew(GdLowlAudioMixer(space->get_mixer())));
+GdLowlSpace::GdLowlSpace(int p_channel, double p_sample_rate)
+        : GdLowlAudioSource(std::make_shared<Lowl::Space>(p_sample_rate, Lowl::get_channel(p_channel))) {
+    space = std::dynamic_pointer_cast<Lowl::Space>(get_audio_source());
 }
 
-void GdLowlSpace::play(Lowl::SpaceId p_id, double p_volume, double p_panning) {
-    space->play(p_id, p_volume, p_panning);
-}
-
-void GdLowlSpace::stop(Lowl::SpaceId p_id) {
-    space->stop(p_id);
-}
-
-Ref<GdLowlAudioMixer> GdLowlSpace::get_mixer() {
-    return mixer;
-}
-
-GdLowlError::Code GdLowlSpace::get_error() {
-    return error;
-}
-
-void GdLowlSpace::set_sample_rate(Lowl::SampleRate p_sample_rate) {
-    space->set_sample_rate(p_sample_rate);
-}
-
-void GdLowlSpace::set_channel(uint16_t p_channel) {
-    space->set_channel(Lowl::get_channel(p_channel));
-}
-
-void GdLowlSpace::set_volume(Lowl::SpaceId p_id, double p_volume) {
-    space->set_volume(p_id, p_volume);
-}
-    
-void GdLowlSpace::set_panning(Lowl::SpaceId p_id, double p_panning){
-    space->set_panning(p_id, p_panning);
+GdLowlSpace::GdLowlSpace()
+        : GdLowlAudioSource(nullptr) {
+    space = nullptr;
 }
 
 Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_data) {
@@ -56,18 +29,17 @@ Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_da
     if (!audio_data) {
         return Lowl::Space::InvalidSpaceId;
     }
-    Lowl::SpaceId id = space->add_audio(std::make_unique<Lowl::AudioData>(
+    std::unique_ptr<Lowl::AudioData> audio_data_copy = std::make_unique<Lowl::AudioData>(
             audio_data->get_frames(),
             audio_data->get_sample_rate(),
-            audio_data->get_channel(),
-            audio_data->get_volume(),
-            audio_data->get_panning()
-    ), err);
+            audio_data->get_channel()
+    );
+    Lowl::SpaceId id = space->add_audio(std::move(audio_data_copy), err);
     if (err.has_error()) {
-        error = GdLowlError::convert(err.get_error());
+        //   error = GdLowlError::convert(err.get_error());
         return Lowl::Space::InvalidSpaceId;
     }
-    error = GdLowlError::NoError;
+    // error = GdLowlError::NoError;
     return id;
 }
 
@@ -78,18 +50,41 @@ Lowl::SpaceId GdLowlSpace::add_audio_path(const String &p_path) {
     }
     Lowl::SpaceId id = space->add_audio(p_path.utf8().get_data(), err);
     if (err.has_error()) {
-        error = GdLowlError::convert(err.get_error());
+        //  error = GdLowlError::convert(err.get_error());
         return Lowl::Space::InvalidSpaceId;
     }
-    error = GdLowlError::NoError;
+    //error = GdLowlError::NoError;
     return id;
 }
 
-GdLowlSpace::GdLowlSpace() {
-    error = GdLowlError::NoError;
-    space = std::make_unique<Lowl::Space>();
+void GdLowlSpace::play_audio_ex(Lowl::SpaceId p_id, double p_volume, double p_panning) {
+    space->play(p_id, p_volume, p_panning);
 }
 
-GdLowlSpace::~GdLowlSpace() {
+void GdLowlSpace::play_audio(Lowl::SpaceId p_id) {
+    space->play(p_id);
+}
 
+void GdLowlSpace::stop_audio(Lowl::SpaceId p_id) {
+    space->stop(p_id);
+}
+
+void GdLowlSpace::set_audio_volume(Lowl::SpaceId p_id, double p_volume) {
+    space->set_volume(p_id, p_volume);
+}
+
+void GdLowlSpace::set_audio_panning(Lowl::SpaceId p_id, double p_panning) {
+    space->set_panning(p_id, p_panning);
+}
+
+void GdLowlSpace::reset_audio(Lowl::SpaceId p_id) {
+    space->reset(p_id);
+}
+
+void GdLowlSpace::seek_audio_time(Lowl::SpaceId p_id, double p_seconds) {
+    space->seek_time(p_id, p_seconds);
+}
+
+void GdLowlSpace::seek_audio_frame(Lowl::SpaceId p_id, int p_frame) {
+    space->seek_frame(p_id, p_frame);
 }

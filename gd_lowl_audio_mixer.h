@@ -25,6 +25,8 @@ protected:
 public:
     void mix(const Ref<GdLowlAudioSource> &p_audio_source);
 
+    void remove(const Ref<GdLowlAudioSource> &p_audio_source);
+
     std::shared_ptr<Lowl::AudioMixer> get_audio_mixer() const;
 
     GdLowlAudioMixer();

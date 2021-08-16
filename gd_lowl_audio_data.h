@@ -24,18 +24,20 @@ protected:
 
 public:
     std::shared_ptr<Lowl::AudioData> get_audio_data() const;
-    
+
     Ref<GdLowlAudioData> create_slice(double p_begin_sec, double p_end_sec);
+
+    void reset();
+
+    void seek_time(double p_seconds);
+
+    void seek_frame(int p_frame);
 
     GdLowlAudioData();
 
     GdLowlAudioData(std::shared_ptr<Lowl::AudioData> p_audio_data);
 
     GdLowlAudioData(Array p_audio_frames, double p_sample_rate, int p_channel);
-
-    void cancel_read();
-
-    void reset_read();
 
     ~GdLowlAudioData() = default;
 };

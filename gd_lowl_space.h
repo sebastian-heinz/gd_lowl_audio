@@ -12,44 +12,42 @@
 
 #include <memory>
 
-class GdLowlSpace : public RefCounted {
-GDCLASS(GdLowlSpace, RefCounted);
+class GdLowlSpace : public GdLowlAudioSource {
+GDCLASS(GdLowlSpace, GdLowlAudioSource);
 OBJ_CATEGORY("Lowl Audio");
 
 private:
-    std::unique_ptr<Lowl::Space> space;
-    Ref<GdLowlAudioMixer> mixer;
-    GdLowlError::Code error;
+    std::shared_ptr<Lowl::Space> space;
 
 protected:
     static void _bind_methods();
 
 public:
-    void play(Lowl::SpaceId p_id, double p_volume = 1.0, double p_panning = 0.5);
+    void play_audio_ex(Lowl::SpaceId p_id, double p_volume, double p_panning);
 
-    void stop(Lowl::SpaceId p_id);
+    void play_audio(Lowl::SpaceId p_id);
 
-    GdLowlError::Code get_error();
+    void stop_audio(Lowl::SpaceId p_id);
 
     Lowl::SpaceId add_audio_path(const String &p_path);
 
     Lowl::SpaceId add_audio_data(const Ref<GdLowlAudioData> &p_audio_data);
 
-    void load();
-
-    void set_sample_rate(Lowl::SampleRate p_sample_rate);
-
-    void set_channel(uint16_t p_channel);
-
-    void set_volume(Lowl::SpaceId p_id, double p_volume);
+    void set_audio_volume(Lowl::SpaceId p_id, double p_volume);
     
-    void set_panning(Lowl::SpaceId p_id, double p_panning);
+    void set_audio_panning(Lowl::SpaceId p_id, double p_panning);
 
-    Ref<GdLowlAudioMixer> get_mixer();
+    void reset_audio(Lowl::SpaceId p_id);
+
+    void seek_audio_time(Lowl::SpaceId p_id, double p_seconds);
+
+    void seek_audio_frame(Lowl::SpaceId p_id, int p_frame);
 
     GdLowlSpace();
 
-    ~GdLowlSpace();
+    GdLowlSpace(int p_channel, double p_sample_rate);
+
+    ~GdLowlSpace() = default;
 };
 
 

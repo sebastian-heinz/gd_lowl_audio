@@ -1,17 +1,10 @@
 #include "gd_lowl_audio_data.h"
 
 void GdLowlAudioData::_bind_methods() {
-    ClassDB::bind_method(D_METHOD("cancel_read"), &GdLowlAudioData::cancel_read);
-    ClassDB::bind_method(D_METHOD("reset_read"), &GdLowlAudioData::reset_read);
     ClassDB::bind_method(D_METHOD("create_slice", "begin_sec", "end_sec"), &GdLowlAudioData::create_slice);
-}
-
-void GdLowlAudioData::cancel_read() {
-    audio_data->cancel_read();
-}
-
-void GdLowlAudioData::reset_read() {
-    audio_data->reset_read();
+    ClassDB::bind_method(D_METHOD("seek_time", "seconds"), &GdLowlAudioData::seek_time);
+    ClassDB::bind_method(D_METHOD("seek_frame", "frame"), &GdLowlAudioData::seek_frame);
+    ClassDB::bind_method(D_METHOD("reset"), &GdLowlAudioData::reset);
 }
 
 std::shared_ptr<Lowl::AudioData> GdLowlAudioData::get_audio_data() const {
@@ -55,3 +48,26 @@ std::vector<Lowl::AudioFrame> GdLowlAudioData::convert_frames(Array p_audio_fram
     }
     return frames;
 }
+
+void GdLowlAudioData::seek_time(double p_seconds) {
+    if (audio_data == nullptr) {
+        return;
+    }
+    audio_data->seek_time(p_seconds);
+}
+
+void GdLowlAudioData::reset() {
+    if (audio_data == nullptr) {
+        return;
+    }
+    audio_data->reset();
+}
+
+void GdLowlAudioData::seek_frame(int p_frame) {
+    if (audio_data == nullptr) {
+        return;
+    }
+    audio_data->seek_frame(p_frame);
+}
+
+

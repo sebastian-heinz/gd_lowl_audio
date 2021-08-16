@@ -6,6 +6,7 @@
 
 #include "lowl_sample_format.h"
 #include "lowl_audio_source.h"
+
 #include <memory>
 
 class GdLowlAudioSource : public RefCounted {
@@ -48,6 +49,16 @@ public:
     void set_panning(double p_panning);
 
     double get_panning();
+
+    void pause();
+
+    bool is_pause();
+
+    void play();
+
+    bool is_play();
+
+    int get_frames_remaining();
 
     std::shared_ptr<Lowl::AudioSource> get_audio_source() const;
 

@@ -14,6 +14,7 @@ void GdLowl::_bind_methods() {
     ClassDB::bind_method(D_METHOD("finish"), &GdLowl::finish);
     ClassDB::bind_method(D_METHOD("create_mixer", "channel", "sample_rate"), &GdLowl::create_mixer);
     ClassDB::bind_method(D_METHOD("create_data", "channel", "sample_rate", "audio_frames"), &GdLowl::create_data);
+    ClassDB::bind_method(D_METHOD("create_space", "channel", "sample_rate"), &GdLowl::create_space);
     ClassDB::bind_method(D_METHOD("create_data_from_path", "p_audio_path"), &GdLowl::create_data_from_path);
     ClassDB::bind_method(D_METHOD("get_default_device"), &GdLowl::get_default_device);
 }
@@ -71,6 +72,10 @@ Ref<GdLowlAudioMixer> GdLowl::create_mixer(int p_channel, double p_sample_rate) 
 
 Ref<GdLowlAudioData> GdLowl::create_data(int p_channel, double p_sample_rate, Array p_audio_frames) {
     return Ref<GdLowlAudioData>(memnew(GdLowlAudioData(p_audio_frames, p_sample_rate, p_channel)));
+}
+
+Ref<GdLowlSpace> GdLowl::create_space(int p_channel, double p_sample_rate) {
+    return Ref<GdLowlSpace>(memnew(GdLowlSpace(p_channel, p_sample_rate)));
 }
 
 Ref<GdLowlAudioData> GdLowl::create_data_from_path(String p_audio_path) {
