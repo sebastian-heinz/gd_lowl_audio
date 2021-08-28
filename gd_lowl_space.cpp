@@ -11,6 +11,8 @@ void GdLowlSpace::_bind_methods() {
     ClassDB::bind_method(D_METHOD("reset_audio", "space_id"), &GdLowlSpace::reset_audio);
     ClassDB::bind_method(D_METHOD("seek_audio_time", "space_id", "time_seconds"), &GdLowlSpace::seek_audio_time);
     ClassDB::bind_method(D_METHOD("seek_audio_frame", "space_id", "frame"), &GdLowlSpace::seek_audio_frame);
+    ClassDB::bind_method(D_METHOD("get_audio_frames_remaining", "space_id"), &GdLowlSpace::get_audio_frames_remaining);
+    ClassDB::bind_method(D_METHOD("get_audio_frame_position", "space_id"), &GdLowlSpace::get_audio_frame_position);
 }
 
 GdLowlSpace::GdLowlSpace(int p_channel, double p_sample_rate)
@@ -87,4 +89,12 @@ void GdLowlSpace::seek_audio_time(Lowl::SpaceId p_id, double p_seconds) {
 
 void GdLowlSpace::seek_audio_frame(Lowl::SpaceId p_id, int p_frame) {
     space->seek_frame(p_id, p_frame);
+}
+
+int GdLowlSpace::get_audio_frames_remaining(Lowl::SpaceId p_id) const {
+    return space->get_frames_remaining(p_id);
+}
+
+int GdLowlSpace::get_audio_frame_position(Lowl::SpaceId p_id) const {
+    return space->get_frame_position(p_id);
 }

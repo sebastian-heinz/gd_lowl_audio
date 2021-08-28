@@ -1,0 +1,35 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[{
+"base": "Node",
+"class": &"Daw",
+"language": &"GDScript",
+"path": "res://gd_lowl.gd"
+}, {
+"base": "Node",
+"class": &"SndCtr",
+"language": &"GDScript",
+"path": "res://snd_ctr.gd"
+}]
+_global_script_class_icons={
+"Daw": "",
+"SndCtr": ""
+}
+
+[application]
+
+config/name="GdLowl"
+run/main_scene="res://gd_lowl.tscn"
+config/icon="res://icon.png"
+
+[rendering]
+
+environment/defaults/default_environment="res://default_env.tres"

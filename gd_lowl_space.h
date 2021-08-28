@@ -43,6 +43,10 @@ public:
 
     void seek_audio_frame(Lowl::SpaceId p_id, int p_frame);
 
+    virtual int get_audio_frames_remaining(Lowl::SpaceId p_id) const;
+
+    virtual int get_audio_frame_position(Lowl::SpaceId p_id) const;
+
     GdLowlSpace();
 
     GdLowlSpace(int p_channel, double p_sample_rate);

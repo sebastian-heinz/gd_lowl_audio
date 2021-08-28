@@ -60,6 +60,8 @@ public:
 
     int get_frames_remaining();
 
+    int get_frame_position();
+
     std::shared_ptr<Lowl::AudioSource> get_audio_source() const;
 
     GdLowlAudioSource(std::shared_ptr<Lowl::AudioSource> p_audio_source);

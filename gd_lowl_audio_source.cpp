@@ -11,6 +11,7 @@ void GdLowlAudioSource::_bind_methods() {
     ClassDB::bind_method(D_METHOD("play"), &GdLowlAudioSource::play);
     ClassDB::bind_method(D_METHOD("is_play"), &GdLowlAudioSource::is_play);
     ClassDB::bind_method(D_METHOD("get_frames_remaining"), &GdLowlAudioSource::get_frames_remaining);
+    ClassDB::bind_method(D_METHOD("get_frame_position"), &GdLowlAudioSource::get_frame_position);
 }
 
 std::shared_ptr<Lowl::AudioSource> GdLowlAudioSource::get_audio_source() const {
@@ -75,4 +76,8 @@ bool GdLowlAudioSource::is_play() {
 
 int GdLowlAudioSource::get_frames_remaining() {
     return audio_source->get_frames_remaining();
+}
+
+int GdLowlAudioSource::get_frame_position() {
+    return audio_source->get_frame_position();
 }
