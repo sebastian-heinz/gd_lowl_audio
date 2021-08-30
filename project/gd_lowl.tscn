@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bmpp80h4hoii4"]
+[gd_scene load_steps=3 format=3 uid="uid://bmpp80h4hoii4"]
 
 [ext_resource type="Script" path="res://gd_lowl.gd" id="1_obsda"]
+[ext_resource type="PackedScene" uid="uid://csvxfn3acdb4f" path="res://file_explorer/file_explorer.tscn" id="2_yscoe"]
 
 [node name="ctr" type="HBoxContainer"]
 anchor_right = 1.0
@@ -12,7 +13,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Control" parent="." instance=ExtResource( "2_yscoe" )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 510.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="src_ctr" type="VBoxContainer" parent="."]
+offset_left = 514.0
 offset_right = 1024.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
@@ -20,7 +30,7 @@ size_flags_vertical = 3
 script = null
 
 [node name="add_src_button" type="Button" parent="src_ctr"]
-offset_right = 1024.0
+offset_right = 510.0
 offset_bottom = 29.0
 text = "Add Src"
 script = null
@@ -41,7 +51,7 @@ script = null
 
 [node name="src_scroll" type="ScrollContainer" parent="src_ctr"]
 offset_top = 33.0
-offset_right = 1024.0
+offset_right = 510.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

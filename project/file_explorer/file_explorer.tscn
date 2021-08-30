@@ -1,0 +1,74 @@
+[gd_scene load_steps=2 format=3 uid="uid://csvxfn3acdb4f"]
+
+[ext_resource type="Script" path="res://file_explorer/file_explorer.gd" id="1_c2ewp"]
+
+[node name="file_explorer" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( "1_c2ewp" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="path" type="Label" parent="."]
+offset_right = 1024.0
+offset_bottom = 26.0
+size_flags_horizontal = 3
+text = "Path"
+script = null
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="control" type="HBoxContainer" parent="."]
+offset_top = 30.0
+offset_right = 1024.0
+offset_bottom = 63.0
+size_flags_horizontal = 3
+script = null
+
+[node name="disk" type="OptionButton" parent="control"]
+offset_right = 491.0
+offset_bottom = 33.0
+size_flags_horizontal = 3
+items = []
+script = null
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="navigate_up" type="Button" parent="control"]
+offset_left = 495.0
+offset_right = 529.0
+offset_bottom = 33.0
+text = "UP"
+script = null
+
+[node name="filter" type="LineEdit" parent="control"]
+offset_left = 533.0
+offset_right = 1024.0
+offset_bottom = 33.0
+size_flags_horizontal = 3
+structured_text_bidi_override_options = []
+script = null
+
+[node name="scroll" type="ScrollContainer" parent="."]
+offset_top = 67.0
+offset_right = 1024.0
+offset_bottom = 600.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = null
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="container" type="VBoxContainer" parent="scroll"]
+offset_right = 1024.0
+size_flags_horizontal = 3
+script = null
+
+[connection signal="item_selected" from="control/disk" to="." method="_on_disk_item_selected"]
+[connection signal="pressed" from="control/navigate_up" to="." method="_on_navigate_up_pressed"]
+[connection signal="text_changed" from="control/filter" to="." method="_on_filter_text_changed"]
