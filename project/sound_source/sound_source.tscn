@@ -54,7 +54,14 @@ offset_bottom = 82.0
 text = "Stop"
 script = null
 
+[node name="progress" type="ProgressBar" parent="snd"]
+offset_top = 86.0
+offset_right = 380.0
+offset_bottom = 109.0
+script = null
+
 [connection signal="value_changed" from="vol" to="." method="_on_vol_value_changed"]
 [connection signal="value_changed" from="snd/pan" to="." method="_on_pan_value_changed"]
 [connection signal="pressed" from="snd/play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="snd/stop" to="." method="_on_stop_pressed"]
+[connection signal="gui_input" from="snd/progress" to="." method="_on_progress_gui_input"]

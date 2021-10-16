@@ -6,13 +6,16 @@ class_name Daw
 var space : GdLowlSpace
 var selected_device : GdLowlDevice
 var file_explorer : FileExplorer
+var sound_sources: Array
 
 func _init():
-	pass
+	sound_sources = []
+	set_process(true)
 
 func _ready():
 	file_explorer = get_node("file_explorer")
 	file_explorer.file_drop_event.connect(Callable(self, "_on_file_drop_event"))
+	file_explorer.change_dir("/Users/railgun/Downloads/audio")
 	init_gd();
 
 func init_gd():
@@ -62,12 +65,13 @@ func _on_file_drop_event(p_explorer_file : ExplorerFile, p_position : Vector2):
 		var sound_source_scene : PackedScene = load("res://sound_source/sound_source.tscn")
 		var sound_source : SoundSource = sound_source_scene.instantiate()
 		sound_source.set_space_id(space_id)
-		sound_source.snd_event.connect(Callable(self, "_on_snd_ctr_event"))
+		sound_source.sound_source_event.connect(Callable(self, "_on_sound_source_event"))
 		var container : VBoxContainer = get_node("src_ctr/src_scroll/src_scroll_container")
 		container.add_child(sound_source)
+		sound_sources.append(sound_source)
 	
-func _on_snd_ctr_event(event, space_id, value):
-	print("_on_snd_ctr_event: %s" % event)
+func _on_sound_source_event(sound_source : SoundSource, event : String, space_id : int, value):
+	print("_on_sound_source_event: %s" % event)
 	if(event == "play"):
 		space.play_audio(space_id)
 	if(event == "stop"):
@@ -76,3 +80,24 @@ func _on_snd_ctr_event(event, space_id, value):
 		space.set_audio_panning(space_id, value)
 	if(event == "vol"):
 		space.set_audio_volume(space_id, value)
+	if(event == "pos"):
+		var count = space.get_audio_frame_count(space_id)
+		var selected_frame : int = (value / 100) * count
+		print(count)
+		print(selected_frame)
+		space.seek_audio_frame(space_id, selected_frame)
+		sound_source.set_progress(value);
+
+var elapsed : float
+func _process(delta : float):
+	elapsed += delta
+	if elapsed < 0.1:
+		return
+	elapsed = 0;
+	for sound_source in sound_sources:
+		var space_id : int = sound_source.get_space_id()
+		var current_frame : int = space.get_audio_frame_position(space_id)
+		var total_frames : int = space.get_audio_frame_count(space_id)
+		var percent : float = (current_frame / float(total_frames)) * 100.0
+		sound_source.set_progress(percent);
+		
