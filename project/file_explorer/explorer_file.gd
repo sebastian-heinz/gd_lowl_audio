@@ -20,17 +20,23 @@ var m_root : Node
 var m_parent : Node
 var m_index : int
 
+static func is_pos_inside_target(p_position : Vector2i, p_target : Control) -> bool:
+	var target_rect : Rect2i = Rect2(p_target.get_global_position(), p_target.rect_size)
+	return target_rect.has_point(p_position)
+	
 func _init():
 	m_is_file = false
 	m_is_folder = false
 	m_is_active = false
 	m_drag_enabled = true
+	m_drag_pressed_pos = Vector2.ZERO
 	set_mouse_filter(Control.MOUSE_FILTER_PASS)
 	self.mouse_entered.connect(Callable(self, "_on_mouse_entered"))
 	self.mouse_exited.connect(Callable(self, "_on_mouse_exited"))
 	var style : StyleBoxFlat = StyleBoxFlat.new()
-	style.border_color = Color8(100, 100, 255)
-	style.bg_color= Color8(100, 100, 255)
+	style.border_color = Color8(140, 140, 0, 50)
+	style.set_border_width_all(2)
+	style.bg_color= Color8(0, 0, 0, 0)
 	set("theme_override_styles/normal", style)
 	
 func _ready():
@@ -45,8 +51,8 @@ func _input(event):
 			emit_signal("selected_event", self)
 			return
 			
-		if m_drag_enabled && button_index == MOUSE_BUTTON_LEFT && !event.is_pressed():
-			m_drag_pressed_pos = Vector2.ZERO
+		if m_drag_enabled && button_index == MOUSE_BUTTON_LEFT && !event.is_pressed() && m_drag_pressed_pos != Vector2.ZERO:
+			m_drag_pressed_pos = Vector2.ZERO 
 			drag_stop()
 			return
 		
@@ -87,12 +93,16 @@ func drag_update(p_event : InputEventMouseMotion):
 func drag_stop():
 	if !m_is_drag:
 		return
+	m_is_drag = false
+	_on_mouse_exited()
 	m_root.remove_child(self)
 	m_parent.add_child(self)
 	m_parent.move_child(self, m_index)
-	m_is_drag = false
 	self.set_position(m_original_position)
 	emit_signal("drop_event", self, m_drag_postion)
+	
+func is_drop_inside_target(p_target : Control) -> bool:
+	return ExplorerFile.is_pos_inside_target(m_drag_postion, p_target)
 	
 func _on_mouse_entered():
 	m_is_active = true 

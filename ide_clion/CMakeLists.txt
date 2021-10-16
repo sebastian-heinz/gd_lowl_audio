@@ -33,6 +33,8 @@ target_include_directories(
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/concurrentqueue
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/dr_libs
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/r8brain-free-src
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/include
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/src
 )
 
 add_definitions(-DLOWL_DRIVER_DUMMY)

@@ -1,6 +1,6 @@
 extends Node
 
-class_name SndCtr
+class_name SoundSource
 
 # Member variables
 var space_id : int

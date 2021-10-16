@@ -5,8 +5,14 @@ class_name Daw
 # Member variables
 var space : GdLowlSpace
 var selected_device : GdLowlDevice
+var file_explorer : FileExplorer
+
+func _init():
+	pass
 
 func _ready():
+	file_explorer = get_node("file_explorer")
+	file_explorer.file_drop_event.connect(Callable(self, "_on_file_drop_event"))
 	init_gd();
 
 func init_gd():
@@ -45,23 +51,21 @@ func init_gd():
 	if err != GdLowlError.NoError:
 		push_error("selected_device.start(): %s" % err)
 		return
-
-func _on_add_src_button_pressed():
-	var fd : FileDialog = get_node("src_ctr/add_src_button/select_sound_dlg")
-	fd.popup_centered(Vector2i(800,800))
-
-func _on_select_sound_dlg_file_selected(path):
-	var space_id : int = space.add_audio_path(path)
-	print("space_id: %d" % space_id)
-	if space_id == 0:
-		return
-	var snd_ctr_res : PackedScene = load("res://test/daw/snd_ctr.tscn")
-	var snd_ctr : SndCtr = snd_ctr_res.instantiate()
-	snd_ctr.set_space_id(space_id)
-	snd_ctr.snd_event.connect(Callable(self, "_on_snd_ctr_event"))
-	var container : VBoxContainer = get_node("src_ctr/src_scroll/src_scroll_container")
-	container.add_child(snd_ctr)
-
+		
+func _on_file_drop_event(p_explorer_file : ExplorerFile, p_position : Vector2):
+	var target = get_node("src_ctr/src_scroll")
+	if p_explorer_file.is_drop_inside_target(target):
+		var path = p_explorer_file.get_full_path()
+		var space_id : int = space.add_audio_path(path)
+		if space_id == 0:
+			return
+		var sound_source_scene : PackedScene = load("res://sound_source/sound_source.tscn")
+		var sound_source : SoundSource = sound_source_scene.instantiate()
+		sound_source.set_space_id(space_id)
+		sound_source.snd_event.connect(Callable(self, "_on_snd_ctr_event"))
+		var container : VBoxContainer = get_node("src_ctr/src_scroll/src_scroll_container")
+		container.add_child(sound_source)
+	
 func _on_snd_ctr_event(event, space_id, value):
 	print("_on_snd_ctr_event: %s" % event)
 	if(event == "play"):

@@ -53,12 +53,12 @@ GdLowlError::Code GdLowl::init() {
         print_error(vformat("GdLowl::GdLowl:initialize: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
-    std::vector<std::shared_ptr<Lowl::Driver>> lowl_drivers = Lowl::Lib::get_drivers(error);
+    std::vector<std::shared_ptr<Lowl::AudioDriver>> lowl_drivers = Lowl::Lib::get_drivers(error);
     if (error.has_error()) {
         print_error(vformat("GdLowl::GdLowl:get_drivers: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
-    for (std::shared_ptr<Lowl::Driver> lowl_driver : lowl_drivers) {
+    for (std::shared_ptr<Lowl::AudioDriver> lowl_driver : lowl_drivers) {
         GdLowlDriver *gd_driver = memnew(GdLowlDriver(lowl_driver));
         Ref<GdLowlDriver> gd_driver_ref = Ref<GdLowlDriver>(gd_driver);
         drivers.push_back(gd_driver_ref);

@@ -1,5 +1,9 @@
 extends Control
 
+class_name FileExplorer
+
+signal file_drop_event(explorer_file, position)
+
 var drives : OptionButton
 var dir : Directory
 var files : VBoxContainer
@@ -73,6 +77,7 @@ func change_dir(directory_path : String):
 			continue
 		var explorer_file : ExplorerFile = ExplorerFile.new()
 		explorer_file.selected_event.connect(Callable(self, "_on_selected_event"))
+		explorer_file.drop_event.connect(Callable(self, "_on_drop_event"))
 		explorer_file.set_parent_directory_path(directory_path)
 		explorer_file.set_directory_path(directory_path)
 		explorer_file.set_path_name(next_path)
@@ -95,7 +100,10 @@ func _on_selected_event(explorer_file : ExplorerFile):
 	if explorer_file.is_folder():
 		var new_path : String = explorer_file.get_full_path()
 		change_dir(new_path)
-
+		
+func _on_drop_event(p_explorer_file : ExplorerFile, p_position : Vector2):
+	emit_signal("file_drop_event", p_explorer_file, p_position)
+	
 func _on_navigate_up_pressed():
 	var parent_directory : String = get_parent_directory(current_directory_path)
 	if !parent_directory.is_empty():

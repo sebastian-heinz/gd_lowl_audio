@@ -7,7 +7,7 @@ void GdLowlDriver::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_default_device"), &GdLowlDriver::get_default_device);
 }
 
-GdLowlDriver::GdLowlDriver(std::shared_ptr<Lowl::Driver> p_driver) {
+GdLowlDriver::GdLowlDriver(std::shared_ptr<Lowl::AudioDriver> p_driver) {
     driver = p_driver;
     default_device = Ref<GdLowlDevice>();
 }
@@ -23,9 +23,9 @@ GdLowlError::Code GdLowlDriver::initialize() {
         return GdLowlError::convert(error.get_error());
     }
     devices = std::vector<Ref<GdLowlDevice>>();
-    std::vector<std::shared_ptr<Lowl::Device>> lowl_devices = driver->get_devices();
+    std::vector<std::shared_ptr<Lowl::AudioDevice>> lowl_devices = driver->get_devices();
     print_line(vformat("GdLowlDriver::initialize: lowl_devices.size(): %d", (int) lowl_devices.size()));
-    for (std::shared_ptr<Lowl::Device> lowl_device : lowl_devices) {
+    for (std::shared_ptr<Lowl::AudioDevice> lowl_device : lowl_devices) {
         GdLowlDevice *gd_device = memnew(GdLowlDevice(lowl_device));
         Ref<GdLowlDevice> gd_device_ref = Ref<GdLowlDevice>(gd_device);
         devices.push_back(gd_device_ref);

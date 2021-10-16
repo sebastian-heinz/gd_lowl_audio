@@ -13,7 +13,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Control" parent="." instance=ExtResource( "2_yscoe" )]
+[node name="file_explorer" parent="." instance=ExtResource( "2_yscoe" )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 510.0
@@ -29,28 +29,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = null
 
-[node name="add_src_button" type="Button" parent="src_ctr"]
-offset_right = 510.0
-offset_bottom = 29.0
-text = "Add Src"
-script = null
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="select_sound_dlg" type="FileDialog" parent="src_ctr/add_src_button"]
-title = "Open a File"
-size = Vector2i(470, 227)
-min_size = Vector2i(400, 140)
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.wav")
-current_dir = "/Users/railgun/dev/godot/modules/tachy/project"
-current_path = "/Users/railgun/dev/godot/modules/tachy/project/"
-script = null
-
 [node name="src_scroll" type="ScrollContainer" parent="src_ctr"]
-offset_top = 33.0
 offset_right = 510.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
@@ -62,6 +41,3 @@ __meta__ = {
 
 [node name="src_scroll_container" type="VBoxContainer" parent="src_ctr/src_scroll"]
 script = null
-
-[connection signal="pressed" from="src_ctr/add_src_button" to="." method="_on_add_src_button_pressed"]
-[connection signal="file_selected" from="src_ctr/add_src_button/select_sound_dlg" to="." method="_on_select_sound_dlg_file_selected"]

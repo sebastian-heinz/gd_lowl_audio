@@ -1,14 +1,14 @@
 [gd_scene load_steps=2 format=3 uid="uid://c31spp4fi4xt3"]
 
-[ext_resource type="Script" path="res://test/daw/snd_ctr.gd" id="1_nt0xp"]
+[ext_resource type="Script" path="res://sound_source/sound_source.gd" id="1_ktgev"]
 
-[node name="snd_ctr" type="HBoxContainer"]
+[node name="sound_source" type="HBoxContainer"]
 offset_right = 400.0
 offset_bottom = 120.0
 rect_min_size = Vector2(400, 120)
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( "1_nt0xp" )
+script = ExtResource( "1_ktgev" )
 __meta__ = {
 "_edit_use_anchors_": false
 }

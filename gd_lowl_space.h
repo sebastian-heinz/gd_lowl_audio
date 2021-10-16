@@ -8,7 +8,7 @@
 #include "gd_lowl_error.h"
 #include "gd_lowl_audio_data.h"
 
-#include "lowl_space.h"
+#include "lowl_audio_space.h"
 
 #include <memory>
 
@@ -17,7 +17,7 @@ GDCLASS(GdLowlSpace, GdLowlAudioSource);
 OBJ_CATEGORY("Lowl Audio");
 
 private:
-    std::shared_ptr<Lowl::Space> space;
+    std::shared_ptr<Lowl::AudioSpace> space;
 
 protected:
     static void _bind_methods();
