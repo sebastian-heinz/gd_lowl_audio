@@ -27,17 +27,14 @@ offset_right = 1024.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = null
 
 [node name="src_scroll" type="ScrollContainer" parent="src_ctr"]
 offset_right = 510.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = null
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="src_scroll_container" type="VBoxContainer" parent="src_ctr/src_scroll"]
-script = null

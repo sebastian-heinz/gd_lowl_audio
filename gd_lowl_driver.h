@@ -7,8 +7,8 @@
 #include "gd_lowl_error.h"
 #include "gd_lowl_device.h"
 
-#include "lowl_audio_driver.h"
-#include "lowl_audio_device.h"
+#include "audio/lowl_audio_driver.h"
+#include "audio/lowl_audio_device.h"
 
 #include <memory>
 
@@ -23,7 +23,7 @@ private:
     };
 
 private:
-    std::shared_ptr<Lowl::AudioDriver> driver;
+    std::shared_ptr<Lowl::Audio::AudioDriver> driver;
     std::vector<Ref<GdLowlDevice>> devices;
     Ref<GdLowlDevice> default_device;
 
@@ -39,7 +39,7 @@ public:
 
     GdLowlError::Code initialize();
 
-    GdLowlDriver(std::shared_ptr<Lowl::AudioDriver> p_driver);
+    GdLowlDriver(std::shared_ptr<Lowl::Audio::AudioDriver> p_driver);
 
     ~GdLowlDriver();
 };

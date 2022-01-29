@@ -34,6 +34,8 @@ public:
 
     GdLowlError::Code finish();
 
+    void enable_debug_log();
+
     Ref<GdLowlAudioMixer> create_mixer(int p_channel, double p_sample_rate);
 
     Ref<GdLowlAudioData> create_data(int p_channel, double p_sample_rate, Array p_audio_frames);

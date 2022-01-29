@@ -17,6 +17,7 @@ void GdLowl::_bind_methods() {
     ClassDB::bind_method(D_METHOD("create_space", "channel", "sample_rate"), &GdLowl::create_space);
     ClassDB::bind_method(D_METHOD("create_data_from_path", "p_audio_path"), &GdLowl::create_data_from_path);
     ClassDB::bind_method(D_METHOD("get_default_device"), &GdLowl::get_default_device);
+    ClassDB::bind_method(D_METHOD("enable_debug_log"), &GdLowl::enable_debug_log);
 }
 
 GdLowl::GdLowl() {
@@ -26,6 +27,11 @@ GdLowl::GdLowl() {
 
 GdLowl::~GdLowl() {
 
+}
+
+void GdLowl::enable_debug_log() {
+    Lowl::Logger::set_log_level(Lowl::Logger::Level::Debug);
+    Lowl::Logger::register_std_out_log_receiver();
 }
 
 Array GdLowl::get_drivers() {
@@ -53,12 +59,12 @@ GdLowlError::Code GdLowl::init() {
         print_error(vformat("GdLowl::GdLowl:initialize: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
-    std::vector<std::shared_ptr<Lowl::AudioDriver>> lowl_drivers = Lowl::Lib::get_drivers(error);
+    std::vector<std::shared_ptr<Lowl::Audio::AudioDriver>> lowl_drivers = Lowl::Lib::get_drivers(error);
     if (error.has_error()) {
         print_error(vformat("GdLowl::GdLowl:get_drivers: error: %d", error.get_error_code()));
         return GdLowlError::convert(error.get_error());
     }
-    for (std::shared_ptr<Lowl::AudioDriver> lowl_driver : lowl_drivers) {
+    for (std::shared_ptr<Lowl::Audio::AudioDriver> lowl_driver : lowl_drivers) {
         GdLowlDriver *gd_driver = memnew(GdLowlDriver(lowl_driver));
         Ref<GdLowlDriver> gd_driver_ref = Ref<GdLowlDriver>(gd_driver);
         drivers.push_back(gd_driver_ref);
@@ -80,7 +86,7 @@ Ref<GdLowlSpace> GdLowl::create_space(int p_channel, double p_sample_rate) {
 
 Ref<GdLowlAudioData> GdLowl::create_data_from_path(String p_audio_path) {
     Lowl::Error error;
-    std::unique_ptr<Lowl::AudioData> data = Lowl::Lib::create_data(p_audio_path.utf8().get_data(), error);
+    std::unique_ptr<Lowl::Audio::AudioData> data = Lowl::Lib::create_data(p_audio_path.utf8().get_data(), error);
     if (error.has_error()) {
         return Ref<GdLowlAudioData>();
     }

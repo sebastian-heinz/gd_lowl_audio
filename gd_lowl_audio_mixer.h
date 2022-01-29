@@ -7,7 +7,7 @@
 #include "gd_lowl_error.h"
 #include "gd_lowl_audio_source.h"
 
-#include "lowl_audio_mixer.h"
+#include "audio/lowl_audio_mixer.h"
 
 #include <memory>
 
@@ -17,7 +17,7 @@ GDCLASS(GdLowlAudioMixer, GdLowlAudioSource);
 OBJ_CATEGORY("Lowl Audio");
 
 private:
-    std::shared_ptr<Lowl::AudioMixer> audio_mixer;
+    std::shared_ptr<Lowl::Audio::AudioMixer> audio_mixer;
 
 protected:
     static void _bind_methods();
@@ -27,11 +27,11 @@ public:
 
     void remove(const Ref<GdLowlAudioSource> &p_audio_source);
 
-    std::shared_ptr<Lowl::AudioMixer> get_audio_mixer() const;
+    std::shared_ptr<Lowl::Audio::AudioMixer> get_audio_mixer() const;
 
     GdLowlAudioMixer();
 
-    GdLowlAudioMixer(std::shared_ptr<Lowl::AudioMixer> p_audio_mixer);
+    GdLowlAudioMixer(std::shared_ptr<Lowl::Audio::AudioMixer> p_audio_mixer);
 
     GdLowlAudioMixer(int p_channel, double p_sample_rate);
 

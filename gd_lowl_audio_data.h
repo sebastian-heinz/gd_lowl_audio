@@ -7,7 +7,7 @@
 #include "gd_lowl_error.h"
 #include "gd_lowl_audio_source.h"
 
-#include "lowl_audio_data.h"
+#include "audio/lowl_audio_data.h"
 
 #include <memory>
 
@@ -15,15 +15,15 @@ class GdLowlAudioData : public GdLowlAudioSource {
 GDCLASS(GdLowlAudioData, GdLowlAudioSource);
 
 private:
-    std::shared_ptr<Lowl::AudioData> audio_data;
+    std::shared_ptr<Lowl::Audio::AudioData> audio_data;
 
-    static std::vector<Lowl::AudioFrame> convert_frames(Array p_audio_frames, int p_channel);
+    static std::vector<Lowl::Audio::AudioFrame> convert_frames(Array p_audio_frames, int p_channel);
 
 protected:
     static void _bind_methods();
 
 public:
-    std::shared_ptr<Lowl::AudioData> get_audio_data() const;
+    std::shared_ptr<Lowl::Audio::AudioData> get_audio_data() const;
 
     Ref<GdLowlAudioData> create_slice(double p_begin_sec, double p_end_sec);
 
@@ -35,7 +35,7 @@ public:
 
     GdLowlAudioData();
 
-    GdLowlAudioData(std::shared_ptr<Lowl::AudioData> p_audio_data);
+    GdLowlAudioData(std::shared_ptr<Lowl::Audio::AudioData> p_audio_data);
 
     GdLowlAudioData(Array p_audio_frames, double p_sample_rate, int p_channel);
 

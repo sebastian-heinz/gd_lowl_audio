@@ -7,7 +7,7 @@
 #include "gd_lowl_error.h"
 #include "gd_lowl_audio_source.h"
 
-#include "lowl_audio_device.h"
+#include "audio/lowl_audio_device.h"
 
 class GdLowlDevice : public RefCounted {
 GDCLASS(GdLowlDevice, RefCounted);
@@ -20,7 +20,7 @@ private:
     };
 
 private:
-    std::shared_ptr<Lowl::AudioDevice> device;
+    std::shared_ptr<Lowl::Audio::AudioDevice> device;
 
 protected:
     static void _bind_methods();
@@ -42,7 +42,7 @@ public:
 
     GdLowlError::Code stop();
 
-    GdLowlDevice(std::shared_ptr<Lowl::AudioDevice> p_device);
+    GdLowlDevice(std::shared_ptr<Lowl::Audio::AudioDevice> p_device);
 
     ~GdLowlDevice();
 };

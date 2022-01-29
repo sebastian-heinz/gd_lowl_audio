@@ -4,8 +4,8 @@
 #include "core/object/class_db.h"
 #include "core/object/ref_counted.h"
 
-#include "lowl_sample_format.h"
-#include "lowl_audio_source.h"
+#include "audio/lowl_audio_sample_format.h"
+#include "audio/lowl_audio_source.h"
 
 #include <memory>
 
@@ -15,26 +15,26 @@ OBJ_CATEGORY("Lowl Audio");
 
 public:
     enum SampleFormat {
-        Unknown = (int) Lowl::SampleFormat::Unknown,
-        FLOAT_32 = (int) Lowl::SampleFormat::FLOAT_32,
-        FLOAT_64 = (int) Lowl::SampleFormat::FLOAT_64,
-        INT_32 = (int) Lowl::SampleFormat::INT_32,
-        INT_24 = (int) Lowl::SampleFormat::INT_24,
-        INT_16 = (int) Lowl::SampleFormat::INT_16,
-        INT_8 = (int) Lowl::SampleFormat::INT_8,
-        U_INT_8 = (int) Lowl::SampleFormat::U_INT_8,
+        Unknown = (int) Lowl::Audio::SampleFormat::Unknown,
+        FLOAT_32 = (int) Lowl::Audio::SampleFormat::FLOAT_32,
+        FLOAT_64 = (int) Lowl::Audio::SampleFormat::FLOAT_64,
+        INT_32 = (int) Lowl::Audio::SampleFormat::INT_32,
+        INT_24 = (int) Lowl::Audio::SampleFormat::INT_24,
+        INT_16 = (int) Lowl::Audio::SampleFormat::INT_16,
+        INT_8 = (int) Lowl::Audio::SampleFormat::INT_8,
+        U_INT_8 = (int) Lowl::Audio::SampleFormat::U_INT_8,
     };
 
 private:
-    std::shared_ptr<Lowl::AudioSource> audio_source;
+    std::shared_ptr<Lowl::Audio::AudioSource> audio_source;
 
 protected:
     static void _bind_methods();
 
 public:
-    static SampleFormat convert_sample_format(Lowl::SampleFormat sample_format);
+    static SampleFormat convert_sample_format(Lowl::Audio::SampleFormat sample_format);
 
-    static Lowl::SampleFormat convert_sample_format(SampleFormat sample_format);
+    static Lowl::Audio::SampleFormat convert_sample_format(SampleFormat sample_format);
 
     SampleFormat get_sample_format() const;
 
@@ -62,9 +62,9 @@ public:
 
     int get_frame_position();
 
-    std::shared_ptr<Lowl::AudioSource> get_audio_source() const;
+    std::shared_ptr<Lowl::Audio::AudioSource> get_audio_source() const;
 
-    GdLowlAudioSource(std::shared_ptr<Lowl::AudioSource> p_audio_source);
+    GdLowlAudioSource(std::shared_ptr<Lowl::Audio::AudioSource> p_audio_source);
 
     virtual ~GdLowlAudioSource() = default;
 };

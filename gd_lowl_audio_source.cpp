@@ -14,11 +14,11 @@ void GdLowlAudioSource::_bind_methods() {
     ClassDB::bind_method(D_METHOD("get_frame_position"), &GdLowlAudioSource::get_frame_position);
 }
 
-std::shared_ptr<Lowl::AudioSource> GdLowlAudioSource::get_audio_source() const {
+std::shared_ptr<Lowl::Audio::AudioSource> GdLowlAudioSource::get_audio_source() const {
     return audio_source;
 }
 
-GdLowlAudioSource::GdLowlAudioSource(std::shared_ptr<Lowl::AudioSource> p_audio_source) {
+GdLowlAudioSource::GdLowlAudioSource(std::shared_ptr<Lowl::Audio::AudioSource> p_audio_source) {
     audio_source = p_audio_source;
 }
 
@@ -50,12 +50,12 @@ GdLowlAudioSource::SampleFormat GdLowlAudioSource::get_sample_format() const {
     return convert_sample_format(audio_source->get_sample_format());
 }
 
-GdLowlAudioSource::SampleFormat GdLowlAudioSource::convert_sample_format(Lowl::SampleFormat sample_format) {
+GdLowlAudioSource::SampleFormat GdLowlAudioSource::convert_sample_format(Lowl::Audio::SampleFormat sample_format) {
     return (SampleFormat) sample_format;
 }
 
-Lowl::SampleFormat GdLowlAudioSource::convert_sample_format(GdLowlAudioSource::SampleFormat sample_format) {
-    return (Lowl::SampleFormat) sample_format;
+Lowl::Audio::SampleFormat GdLowlAudioSource::convert_sample_format(GdLowlAudioSource::SampleFormat sample_format) {
+    return (Lowl::Audio::SampleFormat) sample_format;
 }
 
 bool GdLowlAudioSource::is_pause() {

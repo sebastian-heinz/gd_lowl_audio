@@ -64,7 +64,9 @@ func delete_children(node : Node):
 
 func change_dir(directory_path : String):
 	dir.change_dir(directory_path)
-	var result = dir.list_dir_begin(true, true)
+	dir.include_hidden = true
+	dir.include_navigational = true
+	var result = dir.list_dir_begin()
 	if result != OK:
 		push_error("dir.list_dir_begin")
 	

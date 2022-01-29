@@ -17,8 +17,8 @@ void GdLowlSpace::_bind_methods() {
 }
 
 GdLowlSpace::GdLowlSpace(int p_channel, double p_sample_rate)
-        : GdLowlAudioSource(std::make_shared<Lowl::AudioSpace>(p_sample_rate, Lowl::get_channel(p_channel))) {
-    space = std::dynamic_pointer_cast<Lowl::AudioSpace>(get_audio_source());
+        : GdLowlAudioSource(std::make_shared<Lowl::Audio::AudioSpace>(p_sample_rate, Lowl::Audio::get_channel(p_channel))) {
+    space = std::dynamic_pointer_cast<Lowl::Audio::AudioSpace>(get_audio_source());
 }
 
 GdLowlSpace::GdLowlSpace()
@@ -28,11 +28,11 @@ GdLowlSpace::GdLowlSpace()
 
 Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_data) {
     Lowl::Error err;
-    std::shared_ptr<Lowl::AudioData> audio_data = p_audio_data->get_audio_data();
+    std::shared_ptr<Lowl::Audio::AudioData> audio_data = p_audio_data->get_audio_data();
     if (!audio_data) {
-        return Lowl::AudioSpace::InvalidSpaceId;
+        return Lowl::Audio::AudioSpace::InvalidSpaceId;
     }
-    std::unique_ptr<Lowl::AudioData> audio_data_copy = std::make_unique<Lowl::AudioData>(
+    std::unique_ptr<Lowl::Audio::AudioData> audio_data_copy = std::make_unique<Lowl::Audio::AudioData>(
             audio_data->get_frames(),
             audio_data->get_sample_rate(),
             audio_data->get_channel()
@@ -40,7 +40,7 @@ Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_da
     Lowl::SpaceId id = space->add_audio(std::move(audio_data_copy), err);
     if (err.has_error()) {
         //   error = GdLowlError::convert(err.get_error());
-        return Lowl::AudioSpace::InvalidSpaceId;
+        return Lowl::Audio::AudioSpace::InvalidSpaceId;
     }
     // error = GdLowlError::NoError;
     return id;
@@ -49,12 +49,12 @@ Lowl::SpaceId GdLowlSpace::add_audio_data(const Ref<GdLowlAudioData> &p_audio_da
 Lowl::SpaceId GdLowlSpace::add_audio_path(const String &p_path) {
     Lowl::Error err;
     if (p_path.is_empty()) {
-        return Lowl::AudioSpace::InvalidSpaceId;
+        return Lowl::Audio::AudioSpace::InvalidSpaceId;
     }
     Lowl::SpaceId id = space->add_audio(p_path.utf8().get_data(), err);
     if (err.has_error()) {
         //  error = GdLowlError::convert(err.get_error());
-        return Lowl::AudioSpace::InvalidSpaceId;
+        return Lowl::Audio::AudioSpace::InvalidSpaceId;
     }
     //error = GdLowlError::NoError;
     return id;
