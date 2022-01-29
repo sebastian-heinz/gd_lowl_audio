@@ -20,7 +20,7 @@ r8brain_root = lowl_root + "/third_party/r8brain-free-src"
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + cq_root])
-# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/include"])
+# module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + lowl_root + "/src"])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + r8brain_root])
 
 module_env.Append(CPPDEFINES=["LOWL_DEBUG"])
@@ -225,7 +225,6 @@ module_env.add_source_files(env.modules_sources, r8brain_sources)
 
 # region lowl
 module_env.Append(CPPPATH=[lowl_root + "/src"])
-module_env.Append(CPPPATH=[lowl_root + "/include"])
 # Third Party
 module_env.Append(CPPPATH=[lowl_root + "/third_party/src"])
 module_env.Append(CPPPATH=[lowl_root + "/third_party/include"])
