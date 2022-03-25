@@ -25,7 +25,7 @@ void register_gd_lowl_audio_types() {
     ClassDB::register_class<GdLowlDriver>();
     ClassDB::register_class<GdLowlDevice>();
 
-    ClassDB::register_virtual_class<GdLowlAudioSource>();
+    ClassDB::register_abstract_class<GdLowlAudioSource>();
     ClassDB::register_class<GdLowlAudioMixer>();
     ClassDB::register_class<GdLowlAudioData>();
 
