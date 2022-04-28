@@ -18,14 +18,15 @@ target_include_directories(
         ${GODOT_ROOT_DIR}
         ${GODOT_ROOT_DIR}/modules/tachy
         ${GODOT_ROOT_DIR}/modules/tachy/component
-        ${GODOT_ROOT_DIR}/modules/tachy/data
         ${GODOT_ROOT_DIR}/modules/tachy/ext
         ${GODOT_ROOT_DIR}/modules/tachy/manager
         ${GODOT_ROOT_DIR}/modules/tachy/model
-        ${GODOT_ROOT_DIR}/modules/tachy/packet
-        ${GODOT_ROOT_DIR}/modules/tachy/scene
-        ${GODOT_ROOT_DIR}/modules/tachy/server
-        ${GODOT_ROOT_DIR}/modules/tachy/server/audio
+        ${GODOT_ROOT_DIR}/modules/tachy/model/chart
+        ${GODOT_ROOT_DIR}/modules/tachy/model/chart/decoder
+        ${GODOT_ROOT_DIR}/modules/tachy/model/chart/event
+        ${GODOT_ROOT_DIR}/modules/tachy/model/chart/note
+        ${GODOT_ROOT_DIR}/modules/tachy/model/media
+        ${GODOT_ROOT_DIR}/modules/tachy/model/skin
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/include
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/portaudio/include

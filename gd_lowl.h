@@ -13,7 +13,6 @@
 
 class GdLowl : public Object {
 GDCLASS(GdLowl, Object);
-OBJ_CATEGORY("Lowl Audio");
 
 private:
     static GdLowl *singleton;

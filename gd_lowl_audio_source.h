@@ -11,7 +11,6 @@
 
 class GdLowlAudioSource : public RefCounted {
 GDCLASS(GdLowlAudioSource, RefCounted);
-OBJ_CATEGORY("Lowl Audio");
 
 public:
     enum SampleFormat {

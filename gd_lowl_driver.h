@@ -14,7 +14,6 @@
 
 class GdLowlDriver : public RefCounted {
 GDCLASS(GdLowlDriver, RefCounted);
-OBJ_CATEGORY("Lowl Audio");
 
 private:
     GdLowlDriver() {

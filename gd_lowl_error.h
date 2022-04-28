@@ -7,7 +7,6 @@
 
 class GdLowlError : public Object {
 GDCLASS(GdLowlError, Object);
-OBJ_CATEGORY("Lowl Audio");
 
 public:
     enum Code {

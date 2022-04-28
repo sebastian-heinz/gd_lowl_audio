@@ -14,7 +14,6 @@
 
 class GdLowlAudioMixer : public GdLowlAudioSource {
 GDCLASS(GdLowlAudioMixer, GdLowlAudioSource);
-OBJ_CATEGORY("Lowl Audio");
 
 private:
     std::shared_ptr<Lowl::Audio::AudioMixer> audio_mixer;

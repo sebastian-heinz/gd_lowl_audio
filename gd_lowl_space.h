@@ -14,7 +14,6 @@
 
 class GdLowlSpace : public GdLowlAudioSource {
 GDCLASS(GdLowlSpace, GdLowlAudioSource);
-OBJ_CATEGORY("Lowl Audio");
 
 private:
     std::shared_ptr<Lowl::Audio::AudioSpace> space;

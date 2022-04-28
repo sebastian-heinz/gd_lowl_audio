@@ -11,7 +11,6 @@
 
 class GdLowlDevice : public RefCounted {
 GDCLASS(GdLowlDevice, RefCounted);
-OBJ_CATEGORY("Lowl Audio");
 
 private:
     GdLowlDevice() {
