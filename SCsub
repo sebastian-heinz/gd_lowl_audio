@@ -25,9 +25,17 @@ r8brain_root = lowl_root + "/third_party/r8brain-free-src"
 
 module_env.Append(CPPDEFINES=["LOWL_DEBUG"])
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_DUMMY"])
-module_env.Append(CPPDEFINES=["LOWL_DRIVER_CORE_AUDIO"])
+
 module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
 #module_env.Append(CPPDEFINES=[('LOWL_PA_DEFAULT_DRIVER_PRIORITY', '"ALSA,OSS,JACK,COREAUDIO,WASAPI,WDMKS,DSOUND,WMME,ASIO,ASIHPI"')])
+
+#if module_env["platform"] == "windows":
+#    module_env.Append(CPPDEFINES=["LOWL_WIN"])
+#if module_env["platform"] == "linuxbsd":
+#    module_env.Append(CPPDEFINES=["LOWL_UNIX"])
+if module_env["platform"] == "osx":
+    module_env.Append(CPPDEFINES=["LOWL_DRIVER_CORE_AUDIO"])
+
 
 # region portaudio
 
@@ -267,14 +275,6 @@ lowl_sources = [
     lowl_root + "/third_party/src/lowl_dr_imp.cpp"
 ]
 module_env.add_source_files(env.modules_sources, lowl_sources)
-
-#if module_env["platform"] == "windows":
-#    module_env.Append(CPPDEFINES=["LOWL_WIN"])
-#if module_env["platform"] == "linuxbsd":
-#    module_env.Append(CPPDEFINES=["LOWL_UNIX"])
-#if module_env["platform"] == "osx":
-#    module_env.Append(CPPDEFINES=["LOWL_UNIX"])
-# endregion
 
 # region gd_lowl
 sources = [
