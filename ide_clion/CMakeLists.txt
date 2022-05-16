@@ -28,7 +28,12 @@ target_include_directories(
         ${GODOT_ROOT_DIR}/modules/tachy/model/media
         ${GODOT_ROOT_DIR}/modules/tachy/model/skin
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src
-        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/include
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src/audio
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src/audio/convert
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src/audio/coreaudio
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src/audio/dummy
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src/audio/portaudio
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/src/audio/reader
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/portaudio/include
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/readerwriterqueue
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/concurrentqueue
@@ -40,4 +45,5 @@ target_include_directories(
 
 add_definitions(-DLOWL_DRIVER_DUMMY)
 add_definitions(-DLOWL_DRIVER_PORTAUDIO)
+add_definitions(-DLOWL_DRIVER_CORE_AUDIO)
 add_definitions(-DLOWL_UNIX)

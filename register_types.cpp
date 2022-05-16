@@ -14,26 +14,30 @@
 
 static GdLowl *gd_lowl = nullptr;
 
-void register_gd_lowl_audio_types() {
+void initialize_gd_lowl_audio_module(ModuleInitializationLevel p_level) {
 
-    gd_lowl = memnew(GdLowl);
-    ClassDB::register_class<GdLowl>();
-    Engine::get_singleton()->add_singleton(Engine::Singleton("GdLowl", GdLowl::get_singleton()));
+    if (p_level == MODULE_INITIALIZATION_LEVEL_CORE) {
+        gd_lowl = memnew(GdLowl);
+        ClassDB::register_class<GdLowl>();
+        Engine::get_singleton()->add_singleton(Engine::Singleton("GdLowl", GdLowl::get_singleton()));
 
-    ClassDB::register_class<GdLowlError>();
+        ClassDB::register_class<GdLowlError>();
 
-    ClassDB::register_class<GdLowlDriver>();
-    ClassDB::register_class<GdLowlDevice>();
+        ClassDB::register_class<GdLowlDriver>();
+        ClassDB::register_class<GdLowlDevice>();
 
-    ClassDB::register_abstract_class<GdLowlAudioSource>();
-    ClassDB::register_class<GdLowlAudioMixer>();
-    ClassDB::register_class<GdLowlAudioData>();
+        ClassDB::register_abstract_class<GdLowlAudioSource>();
+        ClassDB::register_class<GdLowlAudioMixer>();
+        ClassDB::register_class<GdLowlAudioData>();
 
-    ClassDB::register_class<GdLowlSpace>();
+        ClassDB::register_class<GdLowlSpace>();
 
-    ClassDB::register_class<GdLowlNode>();
+        ClassDB::register_class<GdLowlNode>();
+    }
 }
 
-void unregister_gd_lowl_audio_types() {
-    memdelete(gd_lowl);
+void uninitialize_gd_lowl_audio_module(ModuleInitializationLevel p_level) {
+    if (p_level == MODULE_INITIALIZATION_LEVEL_CORE) {
+        memdelete(gd_lowl);
+    }
 }

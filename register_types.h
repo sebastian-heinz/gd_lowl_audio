@@ -1,7 +1,9 @@
 #ifndef GD_LOWL_AUDIO
 #define GD_LOWL_AUDIO
 
-void register_gd_lowl_audio_types();
-void unregister_gd_lowl_audio_types();
+#include <modules/register_module_types.h>
+
+void initialize_gd_lowl_audio_module(ModuleInitializationLevel p_level);
+void uninitialize_gd_lowl_audio_module(ModuleInitializationLevel p_level);
 
 #endif
