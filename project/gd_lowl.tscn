@@ -8,12 +8,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource( "1_obsda" )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+script = ExtResource("1_obsda")
 
-[node name="file_explorer" parent="." instance=ExtResource( "2_yscoe" )]
+[node name="file_explorer" parent="." instance=ExtResource("2_yscoe")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 510.0
@@ -33,8 +30,5 @@ offset_right = 510.0
 offset_bottom = 600.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="src_scroll_container" type="VBoxContainer" parent="src_ctr/src_scroll"]

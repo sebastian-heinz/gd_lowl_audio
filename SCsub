@@ -33,7 +33,7 @@ module_env.Append(CPPDEFINES=["LOWL_DRIVER_PORTAUDIO"])
 #    module_env.Append(CPPDEFINES=["LOWL_WIN"])
 #if module_env["platform"] == "linuxbsd":
 #    module_env.Append(CPPDEFINES=["LOWL_UNIX"])
-if module_env["platform"] == "osx":
+if module_env["platform"] == "macos":
     module_env.Append(CPPDEFINES=["LOWL_DRIVER_CORE_AUDIO"])
 
 
@@ -104,7 +104,7 @@ if module_env["platform"] == "linuxbsd":
     module_env.Append(CPPPATH=[pa_root + "/src/os/unix"])
     pa_sources.append(x11_sources)
 
-if module_env["platform"] == "osx":
+if module_env["platform"] == "macos":
     osx_sources = [
         pa_root + "/src/os/unix/pa_unix_hostapis.c",
         pa_root + "/src/os/unix/pa_unix_util.c",

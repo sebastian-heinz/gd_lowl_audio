@@ -1,4 +1,4 @@
-supported_platforms = ["windows", "osx", "linuxbsd", "server"]
+supported_platforms = ["windows", "macos", "linuxbsd", "server"]
 
 def can_build(env, platform):
     return True

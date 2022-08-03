@@ -40,8 +40,8 @@ _global_script_class_icons={
 
 config/name="GdLowl"
 run/main_scene="res://gd_lowl.tscn"
-config/icon="res://icon.png"
 config/features=PackedStringArray("4.0")
+config/icon="res://icon.png"
 
 [rendering]
 
