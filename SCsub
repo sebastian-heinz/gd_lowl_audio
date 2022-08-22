@@ -14,8 +14,13 @@ pa_root = lowl_root + "/third_party/portaudio"
 dr_root = lowl_root + "/third_party/dr_libs"
 asio_root = lowl_root + "/third_party/asiosdk"
 r8brain_root = lowl_root + "/third_party/r8brain-free-src"
+ogg_root = lowl_root + "/third_party/ogg"
+opus_root = lowl_root + "/third_party/opus"
+opusfile_root = lowl_root + "/third_party/opusfile"
+vorbis_root = lowl_root + "/third_party/vorbis"
 
 # add these lines to another modules SCsub in order to access the c++ headers of these libs
+# gd_lowl_root_abs = "#modules/gd_lowl_audio"
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + rwq_root])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + pa_root + "/include"])
 # module_env.Append(CPPPATH=[gd_lowl_root_abs + "/" + dr_root])
@@ -231,6 +236,216 @@ r8brain_sources = [
 module_env.add_source_files(env.modules_sources, r8brain_sources)
 # endregion
 
+# region ogg
+module_env.Append(CPPPATH=[ogg_root + "/include"])
+ogg_sources = [
+    ogg_root + "/src/bitwise.c",
+    ogg_root + "/src/framing.c",
+    ]
+module_env.add_source_files(env.modules_sources, ogg_sources)
+# endregion
+
+# region opus
+module_env.Append(CPPDEFINES=["OPUS_BUILD"])
+module_env.Append(CPPDEFINES=["VAR_ARRAYS"])
+
+module_env.Append(CPPPATH=[opus_root + "/celt"])
+module_env.Append(CPPPATH=[opus_root + "/silk"])
+module_env.Append(CPPPATH=[opus_root + "/silk/float"])
+module_env.Append(CPPPATH=[opus_root + "/silk/fixed"])
+module_env.Append(CPPPATH=[opus_root + "/include"])
+
+opus_sources = [
+    opus_root + "/src/analysis.c",
+    opus_root + "/src/mapping_matrix.c",
+    opus_root + "/src/mlp.c",
+    opus_root + "/src/mlp_data.c",
+    opus_root + "/src/opus.c",
+    opus_root + "/src/opus_compare.c",
+    opus_root + "/src/opus_decoder.c",
+    opus_root + "/src/opus_demo.c",
+    opus_root + "/src/opus_encoder.c",
+    opus_root + "/src/opus_multistream.c",
+    opus_root + "/src/opus_multistream_decoder.c",
+    opus_root + "/src/repacketizer.c",
+    opus_root + "/src/repacketizer_demo.c",
+    # celt
+    opus_root + "/celt/bands.c",
+    opus_root + "/celt/celt.c",
+    opus_root + "/celt/celt_decoder.c",
+    opus_root + "/celt/celt_encoder.c",
+    opus_root + "/celt/celt_lpc.c",
+    opus_root + "/celt/cwrs.c",
+    opus_root + "/celt/entcode.c",
+    opus_root + "/celt/entdec.c",
+    opus_root + "/celt/entenc.c",
+    opus_root + "/celt/kiss_fft.c",
+    opus_root + "/celt/laplace.c",
+    opus_root + "/celt/mathops.c",
+    opus_root + "/celt/mdct.c",
+    opus_root + "/celt/modes.c",
+    opus_root + "/celt/opus_custom_demo.c",
+    opus_root + "/celt/pitch.c",
+    opus_root + "/celt/quant_bands.c",
+    opus_root + "/celt/rate.c",
+    opus_root + "/celt/vq.c",
+    # silk
+    opus_root + "/silk/A2NLSF.c",
+    opus_root + "/silk/ana_filt_bank_1.c",
+    opus_root + "/silk/biquad_alt.c",
+    opus_root + "/silk/bwexpander.c",
+    opus_root + "/silk/bwexpander_32.c",
+    opus_root + "/silk/check_control_input.c",
+    opus_root + "/silk/CNG.c",
+    opus_root + "/silk/code_signs.c",
+    opus_root + "/silk/control_audio_bandwidth.c",
+    opus_root + "/silk/control_codec.c",
+    opus_root + "/silk/control_SNR.c",
+    opus_root + "/silk/debug.c",
+    opus_root + "/silk/dec_API.c",
+    opus_root + "/silk/decode_core.c",
+    opus_root + "/silk/decode_frame.c",
+    opus_root + "/silk/decode_indices.c",
+    opus_root + "/silk/decode_parameters.c",
+    opus_root + "/silk/decode_pitch.c",
+    opus_root + "/silk/decode_pulses.c",
+    opus_root + "/silk/decoder_set_fs.c",
+    opus_root + "/silk/enc_API.c",
+    opus_root + "/silk/encode_indices.c",
+    opus_root + "/silk/encode_pulses.c",
+    opus_root + "/silk/gain_quant.c",
+    opus_root + "/silk/HP_variable_cutoff.c",
+    opus_root + "/silk/init_decoder.c",
+    opus_root + "/silk/init_encoder.c",
+    opus_root + "/silk/inner_prod_aligned.c",
+    opus_root + "/silk/interpolate.c",
+    opus_root + "/silk/lin2log.c",
+    opus_root + "/silk/log2lin.c",
+    opus_root + "/silk/LP_variable_cutoff.c",
+    opus_root + "/silk/LPC_analysis_filter.c",
+    opus_root + "/silk/LPC_fit.c",
+    opus_root + "/silk/LPC_inv_pred_gain.c",
+    opus_root + "/silk/NLSF2A.c",
+    opus_root + "/silk/NLSF_decode.c",
+    opus_root + "/silk/NLSF_del_dec_quant.c",
+    opus_root + "/silk/NLSF_encode.c",
+    opus_root + "/silk/NLSF_stabilize.c",
+    opus_root + "/silk/NLSF_unpack.c",
+    opus_root + "/silk/NLSF_VQ.c",
+    opus_root + "/silk/NLSF_VQ_weights_laroia.c",
+    opus_root + "/silk/NSQ.c",
+    opus_root + "/silk/NSQ_del_dec.c",
+    opus_root + "/silk/pitch_est_tables.c",
+    opus_root + "/silk/PLC.c",
+    opus_root + "/silk/process_NLSFs.c",
+    opus_root + "/silk/quant_LTP_gains.c",
+    opus_root + "/silk/resampler.c",
+    opus_root + "/silk/resampler_down2.c",
+    opus_root + "/silk/resampler_down2_3.c",
+    opus_root + "/silk/resampler_private_AR2.c",
+    opus_root + "/silk/resampler_private_down_FIR.c",
+    opus_root + "/silk/resampler_private_IIR_FIR.c",
+    opus_root + "/silk/resampler_private_up2_HQ.c",
+    opus_root + "/silk/resampler_rom.c",
+    opus_root + "/silk/shell_coder.c",
+    opus_root + "/silk/sigm_Q15.c",
+    opus_root + "/silk/sort.c",
+    opus_root + "/silk/stereo_decode_pred.c",
+    opus_root + "/silk/stereo_encode_pred.c",
+    opus_root + "/silk/stereo_find_predictor.c",
+    opus_root + "/silk/stereo_LR_to_MS.c",
+    opus_root + "/silk/stereo_MS_to_LR.c",
+    opus_root + "/silk/stereo_quant_pred.c",
+    opus_root + "/silk/sum_sqr_shift.c",
+    opus_root + "/silk/table_LSF_cos.c",
+    opus_root + "/silk/tables_gain.c",
+    opus_root + "/silk/tables_LTP.c",
+    opus_root + "/silk/tables_NLSF_CB_NB_MB.c",
+    opus_root + "/silk/tables_NLSF_CB_WB.c",
+    opus_root + "/silk/tables_other.c",
+    opus_root + "/silk/tables_pitch_lag.c",
+    opus_root + "/silk/tables_pulses_per_block.c",
+    opus_root + "/silk/VAD.c",
+    opus_root + "/silk/VQ_WMat_EC.c",
+    # silk/float
+    opus_root + "/silk/float/apply_sine_window_FLP.c",
+    opus_root + "/silk/float/autocorrelation_FLP.c",
+    opus_root + "/silk/float/burg_modified_FLP.c",
+    opus_root + "/silk/float/bwexpander_FLP.c",
+    opus_root + "/silk/float/corrMatrix_FLP.c",
+    opus_root + "/silk/float/encode_frame_FLP.c",
+    opus_root + "/silk/float/energy_FLP.c",
+    opus_root + "/silk/float/find_LPC_FLP.c",
+    opus_root + "/silk/float/find_LTP_FLP.c",
+    opus_root + "/silk/float/find_pitch_lags_FLP.c",
+    opus_root + "/silk/float/find_pred_coefs_FLP.c",
+    opus_root + "/silk/float/inner_product_FLP.c",
+    opus_root + "/silk/float/k2a_FLP.c",
+    opus_root + "/silk/float/LPC_analysis_filter_FLP.c",
+    opus_root + "/silk/float/LPC_inv_pred_gain_FLP.c",
+    opus_root + "/silk/float/LTP_analysis_filter_FLP.c",
+    opus_root + "/silk/float/LTP_scale_ctrl_FLP.c",
+    opus_root + "/silk/float/noise_shape_analysis_FLP.c",
+    opus_root + "/silk/float/pitch_analysis_core_FLP.c",
+    opus_root + "/silk/float/process_gains_FLP.c",
+    opus_root + "/silk/float/regularize_correlations_FLP.c",
+    opus_root + "/silk/float/residual_energy_FLP.c",
+    opus_root + "/silk/float/scale_copy_vector_FLP.c",
+    opus_root + "/silk/float/scale_vector_FLP.c",
+    opus_root + "/silk/float/schur_FLP.c",
+    opus_root + "/silk/float/sort_FLP.c",
+    opus_root + "/silk/float/warped_autocorrelation_FLP.c",
+    opus_root + "/silk/float/wrappers_FLP.c",
+    ]
+module_env.add_source_files(env.modules_sources, opus_sources)
+# endregion
+
+# region opusfile
+module_env.Append(CPPPATH=[opusfile_root + "/include"])
+opusfile_sources = [
+   # opusfile_root + "/src/http.c",
+    opusfile_root + "/src/info.c",
+    opusfile_root + "/src/internal.c",
+    opusfile_root + "/src/opusfile.c",
+    opusfile_root + "/src/stream.c",
+    ]
+module_env.add_source_files(env.modules_sources, opusfile_sources)
+# endregion
+
+# region vorbis
+module_env.Append(CPPPATH=[vorbis_root + "/include"])
+module_env.Append(CPPPATH=[vorbis_root + "/lib"])
+ogg_sources = [
+    vorbis_root + "/lib/analysis.c",
+    vorbis_root + "/lib/barkmel.c",
+    vorbis_root + "/lib/bitrate.c",
+    vorbis_root + "/lib/block.c",
+    vorbis_root + "/lib/codebook.c",
+    vorbis_root + "/lib/envelope.c",
+    vorbis_root + "/lib/floor0.c",
+    vorbis_root + "/lib/floor1.c",
+    vorbis_root + "/lib/info.c",
+    vorbis_root + "/lib/lookup.c",
+    vorbis_root + "/lib/lpc.c",
+    vorbis_root + "/lib/lsp.c",
+    vorbis_root + "/lib/mapping0.c",
+    vorbis_root + "/lib/mdct.c",
+    vorbis_root + "/lib/misc.c",
+    vorbis_root + "/lib/psy.c",
+    # vorbis_root + "/lib/psytune.c",
+    vorbis_root + "/lib/registry.c",
+    vorbis_root + "/lib/res0.c",
+    vorbis_root + "/lib/sharedbook.c",
+    vorbis_root + "/lib/smallft.c",
+    vorbis_root + "/lib/synthesis.c",
+    vorbis_root + "/lib/tone.c",
+    vorbis_root + "/lib/vorbisenc.c",
+    vorbis_root + "/lib/vorbisfile.c",
+    vorbis_root + "/lib/window.c",
+    ]
+module_env.add_source_files(env.modules_sources, ogg_sources)
+# endregion
+
 # region lowl
 module_env.Append(CPPPATH=[lowl_root + "/src"])
 # Third Party
@@ -255,6 +470,8 @@ lowl_sources = [
     lowl_root + "/src/audio/reader/lowl_audio_reader.cpp",
     lowl_root + "/src/audio/reader/lowl_audio_reader_flac.cpp",
     lowl_root + "/src/audio/reader/lowl_audio_reader_mp3.cpp",
+    lowl_root + "/src/audio/reader/lowl_audio_reader_ogg.cpp",
+    lowl_root + "/src/audio/reader/lowl_audio_reader_opus.cpp",
     lowl_root + "/src/audio/reader/lowl_audio_reader_wav.cpp",
     # /audio
     lowl_root + "/src/audio/lowl_audio_data.cpp",
@@ -275,6 +492,7 @@ lowl_sources = [
     lowl_root + "/third_party/src/lowl_dr_imp.cpp"
 ]
 module_env.add_source_files(env.modules_sources, lowl_sources)
+# endregion
 
 # region gd_lowl
 sources = [

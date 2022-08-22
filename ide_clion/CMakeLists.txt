@@ -41,6 +41,10 @@ target_include_directories(
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/r8brain-free-src
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/include
         ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/src
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/ogg
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/opus
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/opusfile
+        ${GODOT_ROOT_DIR}/modules/gd_lowl_audio/lowl_audio/third_party/vorbis
 )
 
 add_definitions(-DLOWL_DRIVER_DUMMY)
