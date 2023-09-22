@@ -43,7 +43,7 @@ func _on_progress_gui_input(event):
 	if event is InputEventMouseButton:
 		var button_index = event.get_button_index()
 		if button_index == MOUSE_BUTTON_LEFT && event.is_pressed():
-			var progress_max : float = progress.rect_size.x
+			var progress_max : float = progress.size.x
 			var progress_selected : float = event.position.x
 			var percent : float = (progress_selected / progress_max) * 100
 			print("pos: %f for %d" % [percent, space_id])

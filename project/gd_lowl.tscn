@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://csvxfn3acdb4f" path="res://file_explorer/file_explorer.tscn" id="2_yscoe"]
 
 [node name="ctr" type="HBoxContainer"]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -11,24 +12,19 @@ size_flags_vertical = 3
 script = ExtResource("1_obsda")
 
 [node name="file_explorer" parent="." instance=ExtResource("2_yscoe")]
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_right = 510.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="src_ctr" type="VBoxContainer" parent="."]
-offset_left = 514.0
-offset_right = 1024.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="src_scroll" type="ScrollContainer" parent="src_ctr"]
-offset_right = 510.0
-offset_bottom = 600.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="src_scroll_container" type="VBoxContainer" parent="src_ctr/src_scroll"]
+layout_mode = 2

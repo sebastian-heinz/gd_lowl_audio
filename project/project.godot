@@ -8,39 +8,11 @@
 
 config_version=5
 
-_global_script_classes=[{
-"base": "Node",
-"class": &"Daw",
-"language": &"GDScript",
-"path": "res://gd_lowl.gd"
-}, {
-"base": "Label",
-"class": &"ExplorerFile",
-"language": &"GDScript",
-"path": "res://file_explorer/explorer_file.gd"
-}, {
-"base": "Control",
-"class": &"FileExplorer",
-"language": &"GDScript",
-"path": "res://file_explorer/file_explorer.gd"
-}, {
-"base": "Node",
-"class": &"SoundSource",
-"language": &"GDScript",
-"path": "res://sound_source/sound_source.gd"
-}]
-_global_script_class_icons={
-"Daw": "",
-"ExplorerFile": "",
-"FileExplorer": "",
-"SoundSource": ""
-}
-
 [application]
 
 config/name="GdLowl"
 run/main_scene="res://gd_lowl.tscn"
-config/features=PackedStringArray("4.0")
+config/features=PackedStringArray("4.1")
 config/icon="res://icon.png"
 
 [rendering]

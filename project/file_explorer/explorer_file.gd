@@ -21,7 +21,7 @@ var m_parent : Node
 var m_index : int
 
 static func is_pos_inside_target(p_position : Vector2i, p_target : Control) -> bool:
-	var target_rect : Rect2i = Rect2(p_target.get_global_position(), p_target.rect_size)
+	var target_rect : Rect2i = Rect2(p_target.get_global_position(), p_target.size)
 	return target_rect.has_point(p_position)
 	
 func _init():
@@ -141,7 +141,7 @@ func get_parent_directory_path():
 	return m_parent_directory_path
 	
 func get_full_path() -> String:
-	return m_directory_path.plus_file(m_path_name)
+	return m_directory_path.path_join(m_path_name)
 	
 func get_drag_position() -> Vector2:
 	return m_drag_postion

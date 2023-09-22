@@ -3,47 +3,41 @@
 
 #include "core/object/class_db.h"
 #include "core/object/ref_counted.h"
+#include "core/variant/typed_array.h"
 
-#include "gd_lowl_error.h"
 #include "gd_lowl_audio_source.h"
+#include "gd_lowl_audio_device_properties.h"
+#include "gd_lowl_error.h"
 
 #include "audio/lowl_audio_device.h"
 
 class GdLowlDevice : public RefCounted {
-GDCLASS(GdLowlDevice, RefCounted);
+	GDCLASS(GdLowlDevice, RefCounted);
 
 private:
-    GdLowlDevice() {
-        // ClassDB::register_class<GdLowlDevice>();
-        device = nullptr;
-    };
+	GdLowlDevice() {
+		// ClassDB::register_class<GdLowlDevice>();
+		device = nullptr;
+	};
 
 private:
-    std::shared_ptr<Lowl::Audio::AudioDevice> device;
+	std::shared_ptr<Lowl::Audio::AudioDevice> device;
 
 protected:
-    static void _bind_methods();
+	static void _bind_methods();
 
 public:
-    double get_default_sample_rate();
+	String get_name() const;
 
-    bool is_supported_source(const Ref<GdLowlAudioSource> &p_audio_source);
+	GdLowlError::Code start(const Ref<GdLowlAudioDeviceProperties> &p_audio_device_properties, const Ref<GdLowlAudioSource> &p_audio_source);
 
-    bool is_supported(int p_channel, double p_sample_rate, GdLowlAudioSource::SampleFormat p_sample_format);
+	GdLowlError::Code stop();
 
-    void set_exclusive_mode(bool p_exclusive_mode);
+	Array get_properties() const;
 
-    bool is_exclusive_mode() const;
+	GdLowlDevice(std::shared_ptr<Lowl::Audio::AudioDevice> p_device);
 
-    String get_name() const;
-
-    GdLowlError::Code start(const Ref<GdLowlAudioSource> &p_audio_source);
-
-    GdLowlError::Code stop();
-
-    GdLowlDevice(std::shared_ptr<Lowl::Audio::AudioDevice> p_device);
-
-    ~GdLowlDevice();
+	~GdLowlDevice();
 };
 
 #endif //GD_LOWL_DEVICE_H

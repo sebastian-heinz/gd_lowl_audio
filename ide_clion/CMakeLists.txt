@@ -50,4 +50,4 @@ target_include_directories(
 add_definitions(-DLOWL_DRIVER_DUMMY)
 add_definitions(-DLOWL_DRIVER_PORTAUDIO)
 add_definitions(-DLOWL_DRIVER_CORE_AUDIO)
-add_definitions(-DLOWL_UNIX)
+add_definitions(-DLOWL_DRIVER_WASAPI)

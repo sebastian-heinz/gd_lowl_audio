@@ -28,7 +28,8 @@ void initialize_gd_lowl_audio_module(ModuleInitializationLevel p_level) {
 
         ClassDB::register_abstract_class<GdLowlAudioSource>();
         ClassDB::register_class<GdLowlAudioMixer>();
-        ClassDB::register_class<GdLowlAudioData>();
+		ClassDB::register_class<GdLowlAudioData>();
+		ClassDB::register_class<GdLowlAudioDeviceProperties>();
 
         ClassDB::register_class<GdLowlSpace>();
 

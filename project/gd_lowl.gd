@@ -15,11 +15,13 @@ func _init():
 func _ready():
 	file_explorer = get_node("file_explorer")
 	file_explorer.file_drop_event.connect(Callable(self, "_on_file_drop_event"))
-	file_explorer.change_dir("/Users/railgun/Downloads/audio")
+	file_explorer.change_dir("C:\\Users\\nxspirit\\dev\\godot\\modules\\gd_lowl_audio\\project")
 	init_gd();
 
 func init_gd():
 	# initialize GdLowl
+	GdLowl.enable_debug_log()
+
 	var err = GdLowl.init()
 	if err != GdLowlError.NoError:
 		push_error("GdLowl.init(): %s" % err)
@@ -48,9 +50,15 @@ func init_gd():
 		push_error("selected_device_index >= available_devices.size()")
 		return
 	selected_device = available_devices[selected_device_index]
-	space = GdLowl.create_space(2, 44100.0);
-
-	err = selected_device.start(space)
+	
+	var audio_properties_list = selected_device.get_properties()
+	for _audio_property in audio_properties_list:
+		print("_audio_property: %s" % _audio_property.to_info_string())
+		
+	var selected_audio_property : GdLowlAudioDeviceProperties = audio_properties_list[0]
+	
+	space = GdLowl.create_space(selected_audio_property.get_channel(), selected_audio_property.get_sample_rate());
+	err = selected_device.start(selected_audio_property, space)
 	if err != GdLowlError.NoError:
 		push_error("selected_device.start(): %s" % err)
 		return

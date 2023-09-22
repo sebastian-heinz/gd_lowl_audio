@@ -5,7 +5,7 @@ class_name FileExplorer
 signal file_drop_event(explorer_file, position)
 
 var drives : OptionButton
-var dir : Directory
+var dir : DirAccess
 var files : VBoxContainer
 var label_path : Label
 var text_filter : LineEdit
@@ -32,28 +32,24 @@ func _ready():
 
 func load_drives():
 	drives.clear()
-	dir = Directory.new()
-
-	if os_name == "Windows":
-		var win_drives = ["A:", "B:", "C:", "D:", "E:", "F:", "G:", "H:", "I:", "J:", "K:", "L:", "M:", "N:", "O:", "P:", "Q:", "R:", "S:", "T:", "U:", "V:", "W:", "X:", "Y:", "Z:"]
-		for dr in win_drives:
-			var _result = dir.open(dr) 
-	else:
-		var _result = dir.open("/")
-	var dc = dir.get_drive_count();
+	var dc = DirAccess.get_drive_count();
 	if dc == 0:
 		push_warning("No Drives")
 	else:
 		for i in range(0, dc):
-			var d : String = dir.get_drive(i)
-			drives.add_item(d)	
-	var disk_index : int = dir.get_current_drive()
+			var d : String = DirAccess.get_drive_name(i)
+			#if os_name == "Windows":
+			drives.add_item(d + "/")
+			#break
+			
+	var disk_index : int = 0
 	drives.select(disk_index)
 	_on_disk_item_selected(disk_index)
 	drive_loaded = true
 
 func _on_disk_item_selected(index):
 	var dist_path : String = drives.get_item_text(index)
+	dir = DirAccess.open(dist_path)
 	current_disk_path = dist_path
 	change_dir(dist_path)
 
@@ -120,9 +116,7 @@ func get_parent_directory(p_directory_path : String) -> String:
 		var idx : int = parent.rfind(separator)
 		if idx > -1:
 			parent_directory = parent.substr(0, idx)
-			if os_name != "Windows":
-				parent_directory += separator
-			break
+			parent_directory += separator
 		else:
 			continue
 	return parent_directory
